@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app-chart.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+{{- range $name, $value := .Values.labels }}
+    {{ $name }}: {{ $value }}
+{{- end -}}
+{{- include "app-chart.labels" . | nindent 4 }}
+spec:
+
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+    {{- range $name, $value := .Values.labels }}
+      {{ $name }}: {{ $value }}
+    {{- end -}}
+    {{- include "app-chart.labels" . | nindent 6 }}
+
+  template:
+    metadata:
+      labels:        
+      {{- range $name, $value := .Values.labels }}
+        {{ $name }}: {{ $value }}
+      {{- end -}}
+      {{- include "app-chart.labels" . | nindent 8 }}
+
+    spec:
+      containers:
+
+        - name: {{ .Chart.Name }}
+          env:
+          - name: CUSTOMER_NAME
+            value: {{ .Values.labels.customer }}        
+
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
