@@ -1,4 +1,4 @@
-# parcellab
+# Challenge
 
 ## To improve the performance and efficiency of the "Hello World" greetings service, you can consider the following strategies:
 
