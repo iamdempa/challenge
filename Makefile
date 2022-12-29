@@ -21,6 +21,8 @@ deploy-c:
 	helm template -f app-chart/C.values.yaml app-chart/
 	helm install -f app-chart/C.values.yaml customer-c app-chart/ --namespace customer-c --create-namespace 
 
-import-docker-image:
+import-docker-image: build-app
 	docker save --output $(IMAGE_NAME).tar $(IMAGE_NAME):latest
 	sudo k3s ctr images import $(IMAGE_NAME).tar
+
+	docker save hello:latest | sudo k3s ctr images import -
