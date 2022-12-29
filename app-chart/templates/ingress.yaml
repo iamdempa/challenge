@@ -5,6 +5,7 @@ metadata:
   namespace: {{ include "app-chart.fullname" . | quote}} #{{ .Release.Namespace | quote }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: traefik
   labels:
     {{- range $key, $val := .Values.labels }}
     {{ $key }}: {{ $val }}
