@@ -24,5 +24,3 @@ deploy-c:
 import-docker-image: build-app
 	docker save --output $(IMAGE_NAME).tar $(IMAGE_NAME):latest
 	sudo k3s ctr images import $(IMAGE_NAME).tar
-
-	docker save hello:latest | sudo k3s ctr images import -
