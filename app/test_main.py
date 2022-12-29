@@ -22,7 +22,7 @@ def test_hello():
     assert response.status_code == 200
 
     # IN THIS SOLUTION, SINCE WE ARE NOT USING ANY QUERY PARAMETERS, 
-    # WE HAVE TO STILL CHECK THE CUSTOMER_NAME VALUE TO DETERMINE THE RESPONSE MESSAGE 
+    # WE HAVE TO STILL CHECK THE "CUSTOMER_NAME" VALUE TO DETERMINE THE RESPONSE MESSAGE 
     # if customer is A 
     if CUSTOMER_NAME == "A":
         assert response.json() == {'response' : 'Hi!'}

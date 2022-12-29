@@ -51,12 +51,26 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+liveness and readiness probes
 */}}
-{{- define "app-chart.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "app-chart.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+{{- define "app-chart.probes" -}}
+livenessProbe:
+  httpGet:
+      path: /health
+      port: 80
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
+readinessProbe:
+  httpGet:
+      path: /health
+      port: 80
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3 
 {{- end }}
-{{- end }}
+

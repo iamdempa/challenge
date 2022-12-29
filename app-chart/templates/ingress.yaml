@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "app-chart.fullname" . }}
+  namespace: {{ include "app-chart.fullname" . | quote}} #{{ .Release.Namespace | quote }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+    {{- range $key, $val := .Values.labels }}
+    {{ $key }}: {{ $val }}
+    {{- end }}
+spec:
+  rules:
+  - host: {{ include "app-chart.fullname" . }}.parcellab.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "app-chart.fullname" . }}
+            port:
+              number: {{ .Values.service.port }}             

@@ -14,14 +14,14 @@ image:
 
 labels:
   customer: C
-  app: hello-app
+  app: hello-app-c
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: "customer-c"
 
 service:
-  type: ClusterIP
+  type: LoadBalancer #ClusterIP
   port: 80
 
 ingress:
