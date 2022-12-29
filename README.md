@@ -93,8 +93,19 @@ curl -kv http://0.0.0.0:8080
 
 2. Deploy in Kubernetes
 
-Before deploying the application in `Kubernetes`, make sure you have installed `helm` and `k3s` (and it is up and running) as mentioned in the Prerequsites section above. Once it is satisified;
+Before deploying the application in `Kubernetes`, make sure you have installed `helm` and `k3s` (and it is up and running) as mentioned in the Prerequsites section above. 
 
+And also since we are using local repository for storing the Docker image of our application, we need to import that image to the K3S's (This is useful for anyone who cannot get k3s server to work with the `--docker` flag)
+
+```
+// this will export the docker image from local repository and import it into K3s
+make import-docker-image
+
+// list the image in K3s context
+k3s ctr image list
+```
+
+Once everything is satisified;
 
 ```
 // deploy the application for customer "A"
