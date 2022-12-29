@@ -21,7 +21,7 @@ nameOverride: ""
 fullnameOverride: "customer-c"
 
 service:
-  type: LoadBalancer #ClusterIP
+  type: NodePort #LoadBalancer # NodePort #ClusterIP
   port: 80
 
 ingress:
