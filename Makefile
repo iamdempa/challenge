@@ -3,10 +3,11 @@ CUSTOMER_NAME ?= A
 
 run:
 	uvicorn app.main:app --reload --host 0.0.0.0 --port 80
+	
 build-app:
 	docker build -t $(IMAGE_NAME) app/
 run-app:
-	docker run --rm -itd -p 8080:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+	docker run --rm --name hello-app -it -p 8080:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
 
 deploy-a:
 	helm template -f app-chart/A.values.yaml app-chart/
