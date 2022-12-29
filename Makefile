@@ -6,7 +6,7 @@ run:
 build-app:
 	docker build -t $(IMAGE_NAME) app/
 run-app:
-	docker run --rm -p 80:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+	docker run --rm -itd -p 8080:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
 
 deploy-a:
 	helm template -f app-chart/A.values.yaml app-chart/
