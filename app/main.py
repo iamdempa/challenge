@@ -30,7 +30,6 @@ def hello():
         return {'response' : greeting}
     else:
         raise HTTPException(status_code=404, detail="Oh Human! It is not a good day for us... We couldn't find your Customer :(")
-        # return {'feeling_bad' : "Oh Human! It is not a good day for us... We couldn't find your Customer :("}  
 
 # Define the health API endpoint to be used by the kubernetes
 @app.get('/health')
