@@ -67,9 +67,9 @@ The architecture consists of the following components:
 
 According to the [assumption]() above, I believe the best way to make things easy, conveninent and re-usable is to use a solution where it can be DRY (Don't Repeat Yourself). This means, making the logic more re-usable with the minimalistic efforts without re-inventing the wheel. According to the assumption, each instance (`Pod`) of the application is responsible for its respective response based on the customer. Therefore, the solution is as below:
 
-```
-Solution: 
+### `Solution: `
 
+```
 Set an ENV variable containing the customer-related metadata (in this case, it is the Customer Name) and inject it into the application where the application logic will read this ENV variable and return the relavent response based on the value of the ENV variable set. Therefore to create a blue-print, re-use it with the minimal configuration changes (i.e. changing the ENV variable).
 ```
 
