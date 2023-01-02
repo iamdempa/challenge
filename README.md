@@ -56,7 +56,7 @@ As per the requirements, the application is deployed **individually** for each c
 
 ## Application Architecture & the Solution:
 
-![Architecture Diagram](parcellab_architecture_diagram.png "Architecture Diagram")
+![Architecture Diagram](architecture_diagram.png "Architecture Diagram")
 
 The architecture consists of the following components:
 
