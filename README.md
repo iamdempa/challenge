@@ -134,6 +134,8 @@ And the application logic is written to grasp the value of `CUSTOMER_NAME` and r
 
 Here, a hash table is used to improve the application performance and time-complezity. (But the response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is)
 
+---
+# Build, Deploy and Run 🚀
 
 ## 3. Prerequisites
 
@@ -160,7 +162,7 @@ k3s kubectl get node
 
 - You are using Linux :) 
 
-## 4. Run the API 🚀
+## 4. Run the API
 
 ### Get the most out of `Makefile`
 
