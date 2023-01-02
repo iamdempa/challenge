@@ -40,3 +40,4 @@ def test_hello():
 def test_health():
     response = client.get("/health")
     assert response.status_code == 200
+    assert response.json() == {'status' : 'Hurray! We are online...'}

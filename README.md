@@ -27,6 +27,30 @@ This repository responsible for creating a REST-API which responds with differen
        └── service.yaml
 ```
 
+`Makefile` - Contains a set of rules (commands to build, run and deploy the application) to be executed.
+
+`app/` - Directory containaining the application logic and relavent resources associated with it.
+
+- `main.py` - Source code for running the python application containing the API End Point
+- `test_main.py` - A simple test suite to run the application written with `fastapi` test-client
+- `requirements.txt` - A list of all of a project's dependencies
+- `Dockerfile` - Contains instructions to build the Docker image
+
+`app-chart/` - This directory encompasses the Helm chart for deploying the REST Api on Kubernetes. 
+
+> **Note:** In here, we have made the helm chart `DRY` (Don't Repeat Yourself). By this, it means, we are using the same helm chart for different customers. Values are dynamically assigned for each user. The segragation happens at the *Values.yaml level. The more details about this can be read in the [Application Architecture]() section
+
+Since we have 3 different customers, each customer-specific values are stored as below.
+
+- `A.values.yaml` - Customer `A` realated deployment variables
+- `B.values.yaml` - Customer `B` realated deployment variables
+- `C.values.yaml` - Customer `C` realated deployment variables
+
+
+### Application Architecture
+
+![Architecture Diagram](parcellab_architecture_diagram.png "Architecture Diagram")
+
 ## 2. Assumptions Made
 
 As per the requirements, the application is deployed **individually** for each customer. 
