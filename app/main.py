@@ -6,10 +6,6 @@ app = FastAPI(title="Hello World Greetings Service", description="A simple servi
 @app.get("/")
 def hello():
 
-    # args = request.args
-    # CUSTOMER_NAME = args.get('customer')     
-
-    # get the customer name and greeting type parameters from the environment variable and request query string respectively
     # set the string that needs to match 
     CUSTOMER_NAME = ''
 

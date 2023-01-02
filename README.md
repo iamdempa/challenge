@@ -132,7 +132,7 @@ And the application logic is written to grasp the value of `CUSTOMER_NAME` and r
         return {'response' : greeting}
 ```
 
-Here, a hash table is used to improve the application performance and time-complezity. (But the response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is)
+Here, a hash table is used to improve the application performance and time-complezity. (But the response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is. This can also be considered for future improvements.)
 
 ---
 # Build, Deploy and Run 🚀
