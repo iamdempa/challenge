@@ -47,15 +47,93 @@ Since we have 3 different customers, each customer-specific values are stored as
 - `C.values.yaml` - Customer `C` realated deployment variables
 
 
-### Application Architecture
-
-![Architecture Diagram](parcellab_architecture_diagram.png "Architecture Diagram")
-
 ## 2. Assumptions Made
 
 As per the requirements, the application is deployed **individually** for each customer. 
 
 > Therefore, the assumptions is to have an Application that is a very generic boilerplate and keep it **DRY** (Don't Repeat Yourself) - i.e. for each customer, it only requires to adjust a very minimum set of configurations to make it more specific to the customer (to get the specific response they expect). By this, application itself will be re-usable. 
+
+
+## Application Architecture & the Solution:
+
+![Architecture Diagram](parcellab_architecture_diagram.png "Architecture Diagram")
+
+The architecture consists of the following components:
+
+- A local `Kubernetes` cluster provisioned with `K3S`
+- A Helm Chart (DRY) for Kubernetes manifests
+- An automated script (`Makefile`) for building and deploying applications
+
+
+According to the [assumption]() above, I believe the best way to make things easy, conveninent and re-usable is to use a solution where it can be DRY (Don't Repeat Yourself). This means, making the logic more re-usable with the minimalistic efforts without re-inventing the wheel. According to the assumption, each instance (`Pod`) of the application is responsible for its respective response based on the customer. Therefore, the solution is as below:
+
+```
+Solution: 
+
+Set an ENV variable containing the customer-related metadata (in this case, it is the Customer Name) and inject it into the application where the application logic will read this ENV variable and return the relavent response based on the value of the ENV variable set. Therefore to create a blue-print, re-use it with the minimal configuration changes (i.e. changing the ENV variable).
+```
+
+Advantage of this approach is;
+
+- The deployment team can deploy the same application (blue-print) many times, without changing the underlying application logic at all. And also this solution avoid ammending any query parameters to the URI and avoid any unncessary conditional checkings at the application logic to differentiate the customer.
+
+To automate this process, a `Helm` chart is created with different `Values.yaml` files. Each `Values.yaml` file responsible for each customer-related metadata and importantly carrying the ENV variable value specific ONLY to that customer. 
+
+```
+// A.values.yaml
+...
+labels:
+  customer: A
+...
+```
+```
+// B.values.yaml
+...
+labels:
+  customer: B
+...
+```
+```
+// C.values.yaml
+...
+labels:
+  customer: C   
+...  
+```
+
+Inside the `app-chart/templates/deployment.yaml`, a `env` variable is set with the key ane value as below:
+
+```
+. . .
+    spec:
+          env:
+          - name: CUSTOMER_NAME
+            value: {{ .Values.labels.customer }}
+. . . 
+```
+
+The `{{ .Values.labels.customer }}` will be initialized by `"A"`, `"B"` or `"C"` for each customer respectively. 
+
+And the application logic is written to grasp the value of `CUSTOMER_NAME` and return the appropriate response. 
+
+```
+    CUSTOMER_NAME = os.environ
+
+    . . .          
+
+    greeting_messages = {
+        'A': 'Hi!',
+        'B': 'Dear Sir or Madam!',
+        'C': 'Moin!'
+    }
+
+    greeting = greeting_messages.get(CUSTOMER_NAME)
+
+    if greeting:    
+        return {'response' : greeting}
+```
+
+Here, a hash table is used to improve the application performance and time-complezity. (But the response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is)
 
 
 ## 3. Prerequisites
@@ -216,3 +294,12 @@ curl -kv http://customer-c.parcellab.com
 ```
 
 As mentioned above, the response varies according to the domain (customer)
+
+
+## Future Improvements
+There are several areas that could be improved in the future:
+
+- Consider using a managed Kubernetes service such as EKS, AKS or GKE for ease of maintenance and scaling
+- Implement continuous integration and delivery pipelines for all applications using CI/CD tools such GitGub actions, Gitlab CI/CD or Jenkins
+- Explore the use of GitOps for managing the infrastructure and applications
+- Add monitoring and alerting for the entire architecture
