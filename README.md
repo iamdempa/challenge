@@ -69,9 +69,8 @@ According to the [assumption]() above, I believe the best way to make things eas
 
 ### `Solution: `
 
-```
-Set an ENV variable containing the customer-related metadata (in this case, it is the Customer Name) and inject it into the application where the application logic will read this ENV variable and return the relavent response based on the value of the ENV variable set. Therefore to create a blue-print, re-use it with the minimal configuration changes (i.e. changing the ENV variable).
-```
+
+> Set an ENV variable containing the customer-related metadata (in this case, it is the Customer Name) and inject it into the application where the application logic will read this ENV variable and return the relavent response based on the value of the ENV variable set. Therefore to create a blue-print, re-use it with the minimal configuration changes (i.e. changing the ENV variable).
 
 Advantage of this approach is;
 
