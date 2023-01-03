@@ -2,7 +2,7 @@ IMAGE_NAME = hello:v1
 CONTAINER_NAME = hello-app
 CUSTOMER_NAME ?= A
 
-CURRENT_USER = $(shell echo $$whoami)
+CURRENT_USER = $(shell echo $$USER)
 
 install-k3s:
 	curl -sfL https://get.k3s.io | sh - 
