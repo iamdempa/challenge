@@ -1,10 +1,16 @@
 IMAGE_NAME = hello:v1
+CONTAINER_NAME = hello-app
 CUSTOMER_NAME ?= A
 
 install-k3s:
 	curl -sfL https://get.k3s.io | sh - 
 	sleep 10
 	echo "Waiting for cluster to be online..."
+
+	sudo chown $(whoami) /etc/rancher/k3s/k3s.yaml
+	sudo 777 /etc/rancher/k3s/k3s.yaml
+	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+		
 	k3s kubectl get node 
 
 run:
@@ -13,8 +19,8 @@ run:
 build-app:
 	docker build -t $(IMAGE_NAME) app/
 run-app:
-	docker stop hello-app || true
-	docker run --rm --name hello-app -itd -p 80:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+	docker stop $(CONTAINER_NAME) || true
+	docker run --rm --name $(CONTAINER_NAME) -itd -p 80:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
 
 deploy:
 	sudo chown $(whoami) /etc/rancher/k3s/k3s.yaml
@@ -46,6 +52,6 @@ test: build-app run-app
 	docker exec -it $(IMAGE_NAME) bash -c pytest
 
 clean:
-	docker stop -f hello-app || true
+	docker stop -f $(CONTAINER_NAME) || true
 	docker rmi $(IMAGE_NAME) || true
 	/usr/local/bin/k3s-uninstall.sh || true
