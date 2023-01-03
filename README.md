@@ -190,10 +190,10 @@ In this example, for automating the build and deployment process of this applica
 
 ```
 // install the requirements
-# pip install --no-cache-dir --upgrade -r app/requirements.txt
+pip install --no-cache-dir --upgrade -r app/requirements.txt
 
 // run the application
-# make run
+make run
 ```
 
 2. Build Image & Run 
