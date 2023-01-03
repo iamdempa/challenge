@@ -3,7 +3,28 @@
 This repository responsible for creating a REST-API which responds with different salutations for different customers. And the application is Containerized and deployed in a selected container orchestrator (`Kubernetes`)
 
 
-## 1. Directory Hierarchy 
+[Assumptions Made](#assumptions-made)
+
+[Directory Hierarchy](#directory-hierarchy)
+
+[Application Architecture and the Solution](#application-architecture-and-the-solution)
+
+
+[Build Deploy and Run 🚀](#build-deploy-and-run-🚀)
+- [Prerequisites](#prerequisites)
+- [Run the API](#run-the-api) 
+    - [Get the most out of Makefile](#get-the-most-out-of-makefile)  
+
+[Future Improvements](#future-improvements)
+
+
+## Assumptions Made
+
+As per the requirements, the application is deployed **individually** for each customer. 
+
+> Therefore, the assumptions is to have an Application that is a very generic boilerplate and keep it **DRY** (Don't Repeat Yourself) - i.e. for each customer, it only requires to adjust a very minimum set of configurations to make it more specific to the customer (to get the specific response they expect). By this, application itself will be re-usable. 
+
+## Directory Hierarchy 
 
 ```
 .
@@ -47,14 +68,7 @@ Since we have 3 different customers, each customer-specific values are stored as
 - `C.values.yaml` - Customer `C` realated deployment variables
 
 
-## 2. Assumptions Made
-
-As per the requirements, the application is deployed **individually** for each customer. 
-
-> Therefore, the assumptions is to have an Application that is a very generic boilerplate and keep it **DRY** (Don't Repeat Yourself) - i.e. for each customer, it only requires to adjust a very minimum set of configurations to make it more specific to the customer (to get the specific response they expect). By this, application itself will be re-usable. 
-
-
-## Application Architecture & the Solution:
+## Application Architecture and the Solution
 
 ![Architecture Diagram](architecture_diagram.png "Architecture Diagram")
 
@@ -132,12 +146,12 @@ And the application logic is written to grasp the value of `CUSTOMER_NAME` and r
         return {'response' : greeting}
 ```
 
-Here, a hash table is used to improve the application performance and time-complezity. (But the response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is. This can also be considered for future improvements.)
+Here, a hash table is used to improve the application performance and time-complezity. (But the response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is. This can also be considered for [Future Improvements](#future-improvements))
 
 ---
-# Build, Deploy and Run 🚀
+# Build Deploy and Run 🚀
 
-## 3. Prerequisites
+## Prerequisites
 
 
 - A Kubernetes Cluster - In this example a simple [K3S](https://k3s.io/) cluster is used
@@ -162,7 +176,7 @@ k3s kubectl get node
 
 - You are using Linux :) 
 
-## 4. Run the API
+## Run the API
 
 ### Get the most out of `Makefile`
 
