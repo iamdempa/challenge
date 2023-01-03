@@ -2,13 +2,15 @@ IMAGE_NAME = hello:v1
 CONTAINER_NAME = hello-app
 CUSTOMER_NAME ?= A
 
+CURRENT_USER = $(shell echo $$whoami)
+
 install-k3s:
 	curl -sfL https://get.k3s.io | sh - 
 	
 	echo "Waiting for cluster to be online..."
 	sleep 10
 
-	sudo chown $(whoami) /etc/rancher/k3s/k3s.yaml
+	sudo chown $(CURRENT_USER) /etc/rancher/k3s/k3s.yaml
 	sudo 777 /etc/rancher/k3s/k3s.yaml
 	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
