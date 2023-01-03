@@ -3,19 +3,19 @@
 This repository responsible for creating a REST-API which responds with different salutations for different customers. And the application is Containerized and deployed in a selected container orchestrator (`Kubernetes`)
 
 
-[1. Assumptions Made](#assumptions-made)
+[1. Assumptions Made](#1-assumptions-made)
 
-[2. Directory Hierarchy](#directory-hierarchy)
+[2. Directory Hierarchy](#2-directory-hierarchy)
 
-[3. Application Architecture and the Solution](#application-architecture-and-the-solution)
+[3. Application Architecture and the Solution](#3-application-architecture-and-the-solution)
 
 
-[4. Build Deploy and Run 🚀](#build-deploy-and-run-)
-- [4.1 Prerequisites](#prerequisites)
-- [4.2 Run the API](#run-the-api) 
-    - [4.2.1 Get the most out of Makefile](#get-the-most-out-of-makefile)  
+[4. Build Deploy and Run 🚀](#4-build-deploy-and-run-)
+- [4.1 Prerequisites](#41-prerequisites)
+- [4.2 Run the API](#42-run-the-api) 
+    - [4.2.1 Get the most out of Makefile](#421-get-the-most-out-of-makefile)  
 
-[5.Future Improvements](#future-improvements)
+[5. Future Improvements](#5-future-improvements)
 
 
 ## 1. Assumptions Made
