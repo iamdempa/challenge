@@ -17,6 +17,7 @@ install-k3s:
 	k3s kubectl get node 
 
 run:
+	pip3 install --no-cache-dir --upgrade -r app/requirements.txt
 	uvicorn app.main:app --reload --host 0.0.0.0 --port 80
 	
 build-app:

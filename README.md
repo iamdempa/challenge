@@ -163,14 +163,6 @@ Here, a hash table is used to improve the application performance and time-compl
 Installation:
 
 ```
-// install k3s
-curl -sfL https://get.k3s.io | sh - 
-
-// Setup cluster access - Need for helm deployments and kubectl access
-export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-
-k3s kubectl get node 
-
 make install-k3s
 ```
 
@@ -191,9 +183,6 @@ In this example, for automating the build and deployment process of this applica
 1. Run Locally
 
 ```
-// install the requirements
-pip install --no-cache-dir --upgrade -r app/requirements.txt
-
 // run the application
 make run
 ```
