@@ -26,7 +26,7 @@ This repository responsible for creating a REST-API which responds with differen
 
 As per the requirements, the application is deployed **individually** for each customer. 
 
-> Therefore, the assumptions is to have an Application that is a very generic boilerplate and keep it **DRY** (Don't Repeat Yourself) - i.e. for each customer, it only requires to adjust a very minimum set of configurations to make it more specific to the customer (to get the specific response they expect). By this, application itself will be re-usable. 
+> Therefore, the assumptions is to have an Application that is a very generic boilerplate and keep it **DRY** (Don't Repeat Yourself) - i.e. for each customer, it only requires to adjust a very minimum set of configurations to make it more specific to the customer (to get the specific response they expect). By this, application and it's associated resources will be re-usable.
 
 ## 2. Directory Hierarchy 
 
@@ -52,25 +52,18 @@ As per the requirements, the application is deployed **individually** for each c
        └── service.yaml
 ```
 
-`Makefile` - Contains a set of rules (commands to build, run and deploy the application) to be executed.
+- `Makefile` - Contains a set of rules (commands to build, run and deploy the application) to be executed.
 
-`app/` - Directory containaining the application logic and relavent resources associated with it.
+- `app/` - Directory containaining the application logic and relavent resources associated with it.
 
-- `main.py` - Source code for running the python application containing the API End Point
-- `test_main.py` - A simple test suite to run the application written with `fastapi` test-client
-- `requirements.txt` - A list of all of a project's dependencies
-- `Dockerfile` - Contains instructions to build the Docker image
+    - `main.py` - Source code for running the python application containing the API End Point
+    - `test_main.py` - A simple test suite to run the application written with `fastapi` test-client
+    - `requirements.txt` - A list of all of a project's dependencies
+    - `Dockerfile` - Contains instructions to build the Docker image
 
-`app-chart/` - This directory encompasses the Helm chart for deploying the REST Api on Kubernetes. 
+- `app-chart/` - This directory encompasses the Helm chart for deploying the REST API on Kubernetes. 
 
-> **Note:** In here, we have made the helm chart `DRY` (Don't Repeat Yourself). By this, it means, we are using the same helm chart for different customers. Values are dynamically assigned for each user. The segragation happens at the *Values.yaml level. The more details about this can be read in the [Application Architecture]() section
-
-Since we have 3 different customers, each customer-specific values are stored as below.
-
-- `A.values.yaml` - Customer `A` realated deployment variables
-- `B.values.yaml` - Customer `B` realated deployment variables
-- `C.values.yaml` - Customer `C` realated deployment variables
-
+> **Note:** In here, we have made the helm chart `DRY` (Don't Repeat Yourself). By this, it means, we are using the same helm chart for different customers. Values are dynamically assigned for each user. The differentaition happens at the ***Values.yaml** level. The more details about this can be read in the [3. Application Architecture and the Solution](#3-application-architecture-and-the-solution) section
 
 ## 3. Application Architecture and the Solution
 
@@ -78,23 +71,30 @@ Since we have 3 different customers, each customer-specific values are stored as
 
 The architecture consists of the following components:
 
+- A container-ready, python-based REST API written using [FastAPI](https://fastapi.tiangolo.com/)
 - A local `Kubernetes` cluster provisioned with `K3S`
-- A Helm Chart (DRY) for Kubernetes manifests
+- A Helm Chart for Kubernetes manifests
 - An automated script (`Makefile`) for building and deploying applications
 
-
-According to the [assumption]() above, I believe the best way to make things easy, conveninent and re-usable is to use a solution where it can be DRY (Don't Repeat Yourself). This means, making the logic more re-usable with the minimalistic efforts without re-inventing the wheel. According to the assumption, each instance (`Pod`) of the application is responsible for its respective response based on the customer. Therefore, the solution is as below:
+According to the [1. Assumptions Made](#1-assumptions-made) above, I believe the best way to make things easy, conveninent and re-usable is to use a solution where it can be DRY (Don't Repeat Yourself). This means, making the logic more re-usable with the minimalistic efforts without re-inventing the wheel again and again for each customer. According to the assumption, each instance (in this context, it is a `Pod`) of the application is responsible for its respective response based on the customer. Therefore, the solution is as below:
 
 ### `Solution: `
 
 
-> Set an ENV variable containing the customer-related metadata (in this case, it is the Customer Name) and inject it into the application where the application logic will read this ENV variable and return the relavent response based on the value of the ENV variable set. Therefore to create a blue-print, re-use it with the minimal configuration changes (i.e. changing the ENV variable).
+> Set an ENV variable containing the customer-related metadata (in this case, it is the Customer Name) and inject it into the application where the application logic will read this ENV variable and return the relavent response based on the value of the ENV variable set. Therefore the solution is to create a blue-print, re-use it with the minimal configuration changes (i.e. changing the ENV variable).
 
 Advantage of this approach is;
 
 - The deployment team can deploy the same application (blue-print) many times, without changing the underlying application logic at all. And also this solution avoid ammending any query parameters to the URI and avoid any unncessary conditional checkings at the application logic to differentiate the customer.
 
 To automate this process, a `Helm` chart is created with different `Values.yaml` files. Each `Values.yaml` file responsible for each customer-related metadata and importantly carrying the ENV variable value specific ONLY to that customer. 
+
+Since we have 3 different customers, each customer-specific values are stored as below.
+
+- `A.values.yaml` - Customer `A` realated deployment variables
+- `B.values.yaml` - Customer `B` realated deployment variables
+- `C.values.yaml` - Customer `C` realated deployment variables
+
 
 ```
 // A.values.yaml
@@ -118,7 +118,7 @@ labels:
 ...  
 ```
 
-Inside the `app-chart/templates/deployment.yaml`, a `env` variable is set with the key ane value as below:
+Inside the `app-chart/templates/deployment.yaml`, a `env` variable is set with the key and value as below:
 
 ```
 . . .
@@ -150,7 +150,7 @@ And the application logic is written to grasp the value of `CUSTOMER_NAME` and r
         return {'response' : greeting}
 ```
 
-Here, a hash table is used to improve the application performance and time-complezity. (But the response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is. This can also be considered for [Future Improvements](#future-improvements))
+Here, a hash table is used to improve the application performance and time-complexity. (The response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is. This can also be considered for [6. Future Improvements](#6-future-improvements) )
 
 ---
 # 4. Build Deploy and Run 🚀
@@ -158,7 +158,7 @@ Here, a hash table is used to improve the application performance and time-compl
 ## 4.1 Prerequisites
 
 
-- A Kubernetes Cluster - In this example a simple [K3S](https://k3s.io/) cluster is used
+- A Kubernetes Cluster - In this example a simple [K3S](https://k3s.io/) cluster is used (and the commands hereby are based on the `K3S` tool)
 
 Installation:
 
