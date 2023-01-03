@@ -4,7 +4,7 @@ CUSTOMER_NAME ?= A
 install-k3s:
 	curl -sfL https://get.k3s.io | sh - 
 	sleep 10
-	echo ""
+	echo "Waiting for cluster to be online..."
 	k3s kubectl get node 
 
 run:
