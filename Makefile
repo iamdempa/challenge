@@ -11,7 +11,7 @@ install-k3s:
 	sleep 10
 
 	sudo chown $(CURRENT_USER) /etc/rancher/k3s/k3s.yaml
-	sudo 777 /etc/rancher/k3s/k3s.yaml
+	sudo chmod 777 /etc/rancher/k3s/k3s.yaml
 	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 	k3s kubectl get node 
