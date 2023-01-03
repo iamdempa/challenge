@@ -16,7 +16,7 @@ def test_hello():
             CUSTOMER_NAME = name 
              
     # get the client 
-    response = client.get("/")
+    response = client.get("/hello")
 
     # check if the status code is 200 for a successful attempt
     assert response.status_code == 200
@@ -30,7 +30,7 @@ def test_hello():
     elif CUSTOMER_NAME == "B":
         assert response.json() == {'response' : 'Dear Sir or Madam!'}  
     # if customer is C  
-    elif CUSTOMER_NAME == "B":
+    elif CUSTOMER_NAME == "C":
         assert response.json() == {'response' : 'Moin!'}  
     # otherwise
     else:

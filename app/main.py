@@ -1,9 +1,9 @@
 from fastapi import FastAPI, HTTPException
 import os
 
-app = FastAPI(title="Hello World Greetings Service", description="A simple service that returns different salutations for customers")
+app = FastAPI(title="Hello-World Greetings Service", description="A simple service that returns different salutations for customers")
 
-@app.get("/")
+@app.get("/hello")
 def hello():
 
     # set the string that needs to match 

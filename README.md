@@ -15,7 +15,9 @@ This repository responsible for creating a REST-API which responds with differen
 - [4.2 Run the API](#42-run-the-api) 
     - [4.2.1 Get the most out of Makefile](#421-get-the-most-out-of-makefile)  
 
-[5. Future Improvements](#5-future-improvements)
+[5. Test API Endpoint](#5-test-api-endpoint)
+
+[6. Future Improvements](#6-future-improvements)
 
 
 ## 1. Assumptions Made
@@ -205,7 +207,7 @@ export CUSTOMER_NAME=<CUSTOMER-NAME> # eg:- export CUSTOMER_NAME=A
 make run-app
 
 // access the application
-curl -kv http://0.0.0.0:8080
+curl -kv http://0.0.0.0:80
 ```
 
 2. Deploy in Kubernetes
@@ -311,7 +313,33 @@ curl -kv http://customer-c.parcellab.com
 As mentioned above, the response varies according to the domain (customer)
 
 
-## 5. Future Improvements
+## 5. Test API Endpoint
+
+Having an automated testing solution to test the API endpoins helps engineers to fix any bugs faster, reduce testing cost amidst the deployment lifecycle, quicker relases and more. 
+
+To test this API endpoint (`/hello`), a small test case is provided. For this, framework's in-built `FastApi-Test-Client` is used. 
+
+You can simply run the Test case for a given customer as below:
+
+```
+// set `CUSTOMER_NAME` out of A, B or C 
+export CUSTOMER_NAME=C
+
+// exeucte the test case
+make test
+```
+
+Note: You can also execute into the docker container and test the api endpoint like below:
+
+```
+// execute into the container
+docker exec -it hello-app bash
+
+// test
+pytest
+```
+
+## 6. Future Improvements
 There are several areas that could be improved in the future:
 
 - Consider using a managed Kubernetes service such as EKS, AKS or GKE for ease of maintenance and scaling

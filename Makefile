@@ -7,7 +7,7 @@ run:
 build-app:
 	docker build -t $(IMAGE_NAME) app/
 run-app:
-	docker run --rm --name hello-app -it -p 8080:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+	docker run --rm --name hello-app -itd -p 80:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
 
 deploy-a:
 	helm template -f app-chart/A.values.yaml app-chart/
@@ -24,3 +24,6 @@ deploy-c:
 import-docker-image: build-app
 	docker save --output $(IMAGE_NAME).tar $(IMAGE_NAME):latest
 	sudo k3s ctr images import $(IMAGE_NAME).tar
+
+test: build-app run-app
+	pytest app/

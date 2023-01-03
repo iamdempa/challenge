@@ -23,7 +23,7 @@ RUN useradd -u 1001 "${USERNAME:-jananath}" \
 USER "${USERNAME:-jananath}"
 
 # copy the app code
-COPY main.py /app
+COPY . /app
 
 # expose the default Flask port
 EXPOSE 80 
