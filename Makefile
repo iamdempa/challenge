@@ -1,5 +1,11 @@
-IMAGE_NAME = hello
+IMAGE_NAME = hello:v1
 CUSTOMER_NAME ?= A
+
+install-k3s:
+	curl -sfL https://get.k3s.io | sh - 
+	sleep 10
+	echo ""
+	k3s kubectl get node 
 
 run:
 	uvicorn app.main:app --reload --host 0.0.0.0 --port 80
@@ -7,29 +13,39 @@ run:
 build-app:
 	docker build -t $(IMAGE_NAME) app/
 run-app:
-	docker stop hello-app > /dev/null 2>&1
+	docker stop hello-app || true
 	docker run --rm --name hello-app -itd -p 80:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
 
-deploy-a:
+deploy:
+	sudo chown $(whoami) /etc/rancher/k3s/k3s.yaml
+	sudo 777 /etc/rancher/k3s/k3s.yaml
+	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+	echo "Deploying the Customer A"
+
 	helm template -f app-chart/A.values.yaml app-chart/
 	helm install -f app-chart/A.values.yaml customer-a app-chart/ --namespace customer-a --create-namespace 
 
-deploy-b:
+	echo "Deploying the Customer B"
+	sleep 2
+
 	helm template -f app-chart/B.values.yaml app-chart/
 	helm install -f app-chart/B.values.yaml customer-b app-chart/ --namespace customer-b --create-namespace 
 
-deploy-c:
+	echo "Deploying the Customer C"
+	sleep 2
+
 	helm template -f app-chart/C.values.yaml app-chart/
 	helm install -f app-chart/C.values.yaml customer-c app-chart/ --namespace customer-c --create-namespace 
 
 import-docker-image: build-app
-	docker save --output $(IMAGE_NAME).tar $(IMAGE_NAME):latest
+	docker save --output $(IMAGE_NAME).tar $(IMAGE_NAME)
 	sudo k3s ctr images import $(IMAGE_NAME).tar
 
 test: build-app run-app
-	pytest app/
+	docker exec -it $(IMAGE_NAME) bash -c pytest
 
 clean:
-	docker stop -f hello-app|| true
-	docker rmi $(IMAGE_NAME):latest || true
+	docker stop -f hello-app || true
+	docker rmi $(IMAGE_NAME) || true
 	/usr/local/bin/k3s-uninstall.sh || true

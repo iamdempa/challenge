@@ -170,6 +170,8 @@ curl -sfL https://get.k3s.io | sh -
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 k3s kubectl get node 
+
+make install-k3s
 ```
 
 - [Helm](https://helm.sh/)
