@@ -10,7 +10,7 @@ This repository responsible for creating a REST-API which responds with differen
 [Application Architecture and the Solution](#application-architecture-and-the-solution)
 
 
-[Build Deploy and Run 🚀](#build-deploy-and-run-🚀)
+[Build Deploy and Run 🚀](#build-deploy-and-run-)
 - [Prerequisites](#prerequisites)
 - [Run the API](#run-the-api) 
     - [Get the most out of Makefile](#get-the-most-out-of-makefile)  
