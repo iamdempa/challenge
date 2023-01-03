@@ -3,28 +3,28 @@
 This repository responsible for creating a REST-API which responds with different salutations for different customers. And the application is Containerized and deployed in a selected container orchestrator (`Kubernetes`)
 
 
-[Assumptions Made](#assumptions-made)
+[1. Assumptions Made](#assumptions-made)
 
-[Directory Hierarchy](#directory-hierarchy)
+[2. Directory Hierarchy](#directory-hierarchy)
 
-[Application Architecture and the Solution](#application-architecture-and-the-solution)
-
-
-[Build Deploy and Run 🚀](#build-deploy-and-run-)
-- [Prerequisites](#prerequisites)
-- [Run the API](#run-the-api) 
-    - [Get the most out of Makefile](#get-the-most-out-of-makefile)  
-
-[Future Improvements](#future-improvements)
+[3. Application Architecture and the Solution](#application-architecture-and-the-solution)
 
 
-## Assumptions Made
+[4. Build Deploy and Run 🚀](#build-deploy-and-run-)
+- [4.1 Prerequisites](#prerequisites)
+- [4.2 Run the API](#run-the-api) 
+    - [4.2.1 Get the most out of Makefile](#get-the-most-out-of-makefile)  
+
+[5.Future Improvements](#future-improvements)
+
+
+## 1. Assumptions Made
 
 As per the requirements, the application is deployed **individually** for each customer. 
 
 > Therefore, the assumptions is to have an Application that is a very generic boilerplate and keep it **DRY** (Don't Repeat Yourself) - i.e. for each customer, it only requires to adjust a very minimum set of configurations to make it more specific to the customer (to get the specific response they expect). By this, application itself will be re-usable. 
 
-## Directory Hierarchy 
+## 2. Directory Hierarchy 
 
 ```
 .
@@ -68,7 +68,7 @@ Since we have 3 different customers, each customer-specific values are stored as
 - `C.values.yaml` - Customer `C` realated deployment variables
 
 
-## Application Architecture and the Solution
+## 3. Application Architecture and the Solution
 
 ![Architecture Diagram](architecture_diagram.png "Architecture Diagram")
 
@@ -149,9 +149,9 @@ And the application logic is written to grasp the value of `CUSTOMER_NAME` and r
 Here, a hash table is used to improve the application performance and time-complezity. (But the response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is. This can also be considered for [Future Improvements](#future-improvements))
 
 ---
-# Build Deploy and Run 🚀
+# 4. Build Deploy and Run 🚀
 
-## Prerequisites
+## 4.1 Prerequisites
 
 
 - A Kubernetes Cluster - In this example a simple [K3S](https://k3s.io/) cluster is used
@@ -176,9 +176,9 @@ k3s kubectl get node
 
 - You are using Linux :) 
 
-## Run the API
+## 4.2 Run the API
 
-### Get the most out of `Makefile`
+### 4.2.1 Get the most out of `Makefile`
 
 In this example, for automating the build and deployment process of this application, a `Makefile` is introduced. It is nothing but a file with set of tasks defined to be executed. Consider it as a simple pipeline to automate the manual tasks associated with building, running and deploying the application both locally and in kubernetes. 
 
@@ -311,7 +311,7 @@ curl -kv http://customer-c.parcellab.com
 As mentioned above, the response varies according to the domain (customer)
 
 
-## Future Improvements
+## 5. Future Improvements
 There are several areas that could be improved in the future:
 
 - Consider using a managed Kubernetes service such as EKS, AKS or GKE for ease of maintenance and scaling
