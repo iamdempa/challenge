@@ -4,13 +4,14 @@ CUSTOMER_NAME ?= A
 
 install-k3s:
 	curl -sfL https://get.k3s.io | sh - 
-	sleep 10
+	
 	echo "Waiting for cluster to be online..."
+	sleep 10
 
 	sudo chown $(whoami) /etc/rancher/k3s/k3s.yaml
 	sudo 777 /etc/rancher/k3s/k3s.yaml
 	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-		
+
 	k3s kubectl get node 
 
 run:
