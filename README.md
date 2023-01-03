@@ -353,7 +353,7 @@ There are several areas that could be improved in the future:
 
 ## 7. Clean
 
-To clean the resources you created run;
+To clean the resources you created, run;
 
 ```
 make clean
