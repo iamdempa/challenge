@@ -7,6 +7,7 @@ run:
 build-app:
 	docker build -t $(IMAGE_NAME) app/
 run-app:
+	docker stop hello-app > /dev/null 2>&1
 	docker run --rm --name hello-app -itd -p 80:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
 
 deploy-a:
@@ -27,3 +28,8 @@ import-docker-image: build-app
 
 test: build-app run-app
 	pytest app/
+
+clean:
+	docker stop -f hello-app|| true
+	docker rmi $(IMAGE_NAME):latest || true
+	/usr/local/bin/k3s-uninstall.sh || true

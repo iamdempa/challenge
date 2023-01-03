@@ -19,6 +19,8 @@ This repository responsible for creating a REST-API which responds with differen
 
 [6. Future Improvements](#6-future-improvements)
 
+[7. Clean](#clean)
+
 
 ## 1. Assumptions Made
 
@@ -199,11 +201,13 @@ In this example, for automating the build and deployment process of this applica
 Since the application is a container-ready application, a `Dockerfile` is used to build the image. This is the most hassle-free solution to share your application and run it anywhere where the Docker is installed. 
 
 ```
+// export CUSTOMER_NAME - eg:- export CUSTOMER_NAME=A
+export CUSTOMER_NAME=A
+
 // build the Docker image
 make build-app
 
 // run the Docker container
-export CUSTOMER_NAME=<CUSTOMER-NAME> # eg:- export CUSTOMER_NAME=A
 make run-app
 
 // access the application
@@ -317,7 +321,7 @@ As mentioned above, the response varies according to the domain (customer)
 
 Having an automated testing solution to test the API endpoins helps engineers to fix any bugs faster, reduce testing cost amidst the deployment lifecycle, quicker relases and more. 
 
-To test this API endpoint (`/hello`), a small test case is provided. For this, framework's in-built `FastApi-Test-Client` is used. 
+To test this API endpoint (`/`), a small test case is provided. For this, framework's in-built `FastApi-Test-Client` is used. 
 
 You can simply run the Test case for a given customer as below:
 
@@ -346,3 +350,11 @@ There are several areas that could be improved in the future:
 - Implement continuous integration and delivery pipelines for all applications using CI/CD tools such GitGub actions, Gitlab CI/CD or Jenkins
 - Explore the use of GitOps for managing the infrastructure and applications
 - Add monitoring and alerting for the entire architecture
+
+## 7. Clean
+
+To clean the resources you created run;
+
+```
+make clean
+```

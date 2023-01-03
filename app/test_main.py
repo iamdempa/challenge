@@ -16,7 +16,7 @@ def test_hello():
             CUSTOMER_NAME = name 
              
     # get the client 
-    response = client.get("/hello")
+    response = client.get("/")
 
     # check if the status code is 200 for a successful attempt
     assert response.status_code == 200
