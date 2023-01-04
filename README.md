@@ -2,13 +2,13 @@
 
 This repository responsible for creating a REST-API which responds with different salutations for different customers. And the application is Containerized and deployed in a selected container orchestrator (`Kubernetes`)
 
+[TLDR;](#tldr;)
 
 [1. Assumptions Made](#1-assumptions-made)
 
 [2. Directory Hierarchy](#2-directory-hierarchy)
 
 [3. Application Architecture and the Solution](#3-application-architecture-and-the-solution)
-
 
 [4. Build Deploy and Run 🚀](#4-build-deploy-and-run-)
 - [4.1 Prerequisites](#41-prerequisites)
@@ -20,6 +20,18 @@ This repository responsible for creating a REST-API which responds with differen
 [6. Future Improvements](#6-future-improvements)
 
 [7. Clean](#clean)
+
+
+# TLDR;
+
+Simply deploy the application on `Kubernetes`
+
+```
+make deploy
+```
+
+Once above command is executed, 3 instances of the application will be deployed in 3 different namespaces for each customer
+
 
 
 ## 1. Assumptions Made
@@ -183,7 +195,14 @@ In this example, for automating the build and deployment process of this applica
 1. Run Locally
 
 ```
-// run the application
+make run
+```
+
+This will run the REST API locally for the Customer A. If you want to run it for Customer B or C, export the CUSTOMER_NAME before running `make run`
+
+```
+export CUSTOMER_NAME=B
+
 make run
 ```
 
@@ -192,17 +211,16 @@ make run
 Since the application is a container-ready application, a `Dockerfile` is used to build the image. This is the most hassle-free solution to share your application and run it anywhere where the Docker is installed. 
 
 ```
-// export CUSTOMER_NAME - eg:- export CUSTOMER_NAME=A
-export CUSTOMER_NAME=A
-
 // build the Docker image
 make build-app
 
 // run the Docker container
 make run-app
 
-// access the application
-curl -kv http://0.0.0.0:80
+// access the applications
+curl -kv http://0.0.0.0:8080
+curl -kv http://0.0.0.0:8081
+curl -kv http://0.0.0.0:8082
 ```
 
 2. Deploy in Kubernetes

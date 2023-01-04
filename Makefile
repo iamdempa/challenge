@@ -17,16 +17,24 @@ install-k3s:
 	k3s kubectl get node 
 
 run:
-	pip install --no-cache-dir --upgrade -r app/requirements.txt
+	pip3 install --no-cache-dir --upgrade -r app/requirements.txt
+	export CUSTOMER_NAME=A
 	uvicorn app.main:app --reload --host 0.0.0.0 --port 80
 	
 build-app:
 	docker build -t $(IMAGE_NAME) app/
 run-app:
 	docker stop $(CONTAINER_NAME) || true
-	docker run --rm --name $(CONTAINER_NAME) -itd -p 80:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+	export CUSTOMER_NAME=A
+	docker run --rm --name $(CONTAINER_NAME)-$(CUSTOMER_NAME) -itd -p 8080:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
 
-deploy:
+	export CUSTOMER_NAME=B
+	docker run --rm --name $(CONTAINER_NAME)-$(CUSTOMER_NAME) -itd -p 8081:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+
+	export CUSTOMER_NAME=C
+	docker run --rm --name $(CONTAINER_NAME)-$(CUSTOMER_NAME) -itd -p 8082:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+
+deploy: install-k3s import-docker-image
 	sudo chown $(whoami) /etc/rancher/k3s/k3s.yaml
 	sudo 777 /etc/rancher/k3s/k3s.yaml
 	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
@@ -53,7 +61,7 @@ import-docker-image: build-app
 	sudo k3s ctr images import $(IMAGE_NAME).tar
 
 test: build-app run-app
-	docker exec -it $(IMAGE_NAME) bash -c pytest
+	docker exec -it $(CONTAINER_NAME) bash -c pytest
 
 clean:
 	docker stop -f $(CONTAINER_NAME) || true

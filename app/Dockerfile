@@ -3,10 +3,8 @@ ARG PYTHON_VERSION=3.7
 # Use the python image as the base image
 FROM python:${PYTHON_VERSION}
 
-ARG CUSTOMER_NAME
-
 # set CUSTOMER_NAME as environment variables
-ENV CUSTOMER_NAME={CUSTOMER_NAME}
+ENV CUSTOMER_NAME=${CUSTOMER_NAME:-A}
 
 # Set the working directory 
 WORKDIR /app
