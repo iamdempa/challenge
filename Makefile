@@ -6,6 +6,7 @@ CURRENT_USER = $(shell echo $$USER)
 INTERNAL_USER_A = A
 INTERNAL_USER_B = B
 INTERNAL_USER_C = C
+INTERNAL_USER_INVALID = X
 
 install-k3s:
 	echo "Installing K3S and running the cluster..."
@@ -15,33 +16,43 @@ install-k3s:
 	sleep 10
 
 run:
-	echo "Installing dependencies..."
+	@printf "\nInstalling dependencies..."
 	pip3 install --no-cache-dir --upgrade -r app/requirements.txt --user
 
-	echo "Running the application locally..."
-	export CUSTOMER_NAME=A
+	@printf "\nRunning the application locally..."
+	export CUSTOMER_NAME=$(CUSTOMER_NAME)
 	uvicorn app.main:app --reload --host 0.0.0.0 --port 80
 	
 build-app:
 	echo "Building the Docker image..."
-	docker build -t $(IMAGE_NAME) app/
 
-run-app:
 	docker stop $(CONTAINER_NAME)-$(INTERNAL_USER_A) || true
 	docker stop $(CONTAINER_NAME)-$(INTERNAL_USER_B) || true
 	docker stop $(CONTAINER_NAME)-$(INTERNAL_USER_C) || true
+	docker stop $(CONTAINER_NAME)-$(INTERNAL_USER_INVALID) || true
+	docker rmi $(IMAGE_NAME)
 
-	echo "Running Customer A Application..."
-	export CUSTOMER_NAME=A
-	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_A) -itd -p 8080:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+	docker build -t $(IMAGE_NAME) app/
 
-	echo "Running Customer B Application..."
-	export CUSTOMER_NAME=B
-	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_B) -itd -p 8081:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+run-app:
 
-	echo "Running Customer C Application..."
-	export CUSTOMER_NAME=C
-	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_C) -itd -p 8082:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+	@printf "\n\nRunning Invalid Customer Application..."
+	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_INVALID) -itd -p 8083:80 -e CUSTOMER_NAME=$(INTERNAL_USER_INVALID) $(IMAGE_NAME)
+
+	sleep 1
+
+	@printf "\n\nRunning Customer A Application..."
+	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_A) -itd -p 8080:80 -e CUSTOMER_NAME=$(INTERNAL_USER_A) $(IMAGE_NAME)
+
+	sleep 1
+
+	@printf "\n\nRunning Customer B Application..."
+	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_B) -itd -p 8081:80 -e CUSTOMER_NAME=$(INTERNAL_USER_B) $(IMAGE_NAME)
+
+	sleep 1
+
+	@printf "\n\nRunning Customer C Application..."
+	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_C) -itd -p 8082:80 -e CUSTOMER_NAME=$(INTERNAL_USER_C) $(IMAGE_NAME)
 
 deploy: install-k3s import-docker-image
 	sudo chown $(CURRENT_USER) /etc/rancher/k3s/k3s.yaml
@@ -50,18 +61,18 @@ deploy: install-k3s import-docker-image
 
 	sleep 3
 
-	echo "Deploying the Customer A"
+	@printf "\nDeploying the Customer A\n"
 
 	helm template -f app-chart/A.values.yaml app-chart/
 	helm install -f app-chart/A.values.yaml customer-a app-chart/ --namespace customer-a --create-namespace 
 
-	echo "Deploying the Customer B"
+	@printf "\nDeploying the Customer B\n"
 	sleep 2
 
 	helm template -f app-chart/B.values.yaml app-chart/
 	helm install -f app-chart/B.values.yaml customer-b app-chart/ --namespace customer-b --create-namespace 
 
-	echo "Deploying the Customer C"
+	@printf "\nDeploying the Customer C\n"
 	sleep 2
 
 	helm template -f app-chart/C.values.yaml app-chart/
@@ -79,21 +90,28 @@ import-docker-image: build-app
 	sudo k3s ctr images import $(IMAGE_NAME).tar
 
 test: build-app run-app
-	echo "Testing the endpoint of the Customer $(INTERNAL_USER_A)..."
+
+	@printf "\n\nTesting the endpoint of the Customer $(INTERNAL_USER_INVALID)...\n"
+	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_INVALID) bash -c pytest
+
+	sleep 2
+
+	@printf "\n\nTesting the endpoint of the Customer $(INTERNAL_USER_A)...\n"
 	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_A) bash -c pytest
 
 	sleep 2
 	
-	echo "Testing the endpoint of the Customer $(INTERNAL_USER_B)..."
+	@printf "\n\nTesting the endpoint of the Customer $(INTERNAL_USER_B)...\n"
 	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_B) bash -c pytest
 
 	sleep 2
 
-	echo "Testing the endpoint of the Customer $(INTERNAL_USER_C)..."
+	@printf "\n\nTesting the endpoint of the Customer $(INTERNAL_USER_C)...\n"
 	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_C) bash -c pytest
 
+
 clean:
-	echo "Stopping and Removing the Docker Containers..."
+	@printf "\nStopping and Removing the Docker Containers...\n"
 	docker stop -f $(CONTAINER_NAME)-$(INTERNAL_USER_A) || true
 	docker stop -f $(CONTAINER_NAME)-$(INTERNAL_USER_B) || true
 	docker stop -f $(CONTAINER_NAME)-$(INTERNAL_USER_C) || true

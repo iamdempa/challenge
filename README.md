@@ -227,27 +227,25 @@ In this example, for automating the build and deployment process of this applica
 ```
 make run
 ```
+This will run the REST API locally for the Customer A. 
 
-This will run the REST API locally for the Customer A. If you want to run it for Customer B or C, export the CUSTOMER_NAME before running `make run`
-
-```
-export CUSTOMER_NAME=B
-
-make run
-```
+> If you want to run it for Customer B or C, set a value for the CUSTOMER_NAME before running `make run` - (eg:- export CUSTOMER_NAME=B)
 
 2. Build Image & Run 
 
 Since the application is a container-ready application, a `Dockerfile` is used to build the image. This is the most hassle-free solution to share your application and run it anywhere where the Docker is installed. 
 
+Build the Docker image
 ```
-// build the Docker image
 make build-app
-
-// run the Docker container
+```
+Run the Docker container
+```
 make run-app
+```
 
-// access the applications
+Access the applications
+```
 curl -kv http://0.0.0.0:8080
 curl -kv http://0.0.0.0:8081
 curl -kv http://0.0.0.0:8082
@@ -257,32 +255,25 @@ curl -kv http://0.0.0.0:8082
 
 Before deploying the application in `Kubernetes`, make sure you have installed `helm` and `k3s` (and it is up and running) as mentioned in the Prerequsites section above. 
 
-And also since we are using local repository for storing the Docker image of our application, we need to import that image to the K3S's (This is useful for anyone who cannot get k3s server to work with the `--docker` flag)
+And also since we are using local repository for storing the Docker image of our application, we need to import that image to the K3S's (This is useful for anyone who cannot get k3s server to work with the `--docker` flag). Image will be automatically exported from the local repository to the `K3S` repository with the `make deploy` command
 
+Deploy the application for customer "A", "B", and "C"
 ```
-// this will export the docker image from local repository and import it into K3s
-make import-docker-image
-
-// list the image in K3s context
-k3s ctr image list
-```
-
-Once everything is satisified;
-
-```
-// deploy the application for customer "A", "B", and "C"
 make deploy
+```
 
+Check the deployed resources
+```
 k3s kubectl get po,svc,ing -n customer-a
 k3s kubectl get po,svc,ing -n customer-b
 k3s kubectl get po,svc,ing -n customer-c
 ```
 
-By default `k3s` uses `Traefik` as the ingress-controller.
+By default `K3S` uses `Traefik` as the ingress-controller.
 
-There are many other tools out there to satisfy the need of an ingress-controller, but to make things super clean, clear and easier, we are using the `Traefik` that comes by-default with `k3s`. 
+There are many other tools out there to satisfy the need of an ingress-controller, but to make things super clean, clear and easier, we are using the `Traefik` that comes by-default with `K3S`. 
 
-Traefik create s `LoadBalancer` type Service in the `kube-system` namepsace And since we are using different `Ingress` rules for each customer with custom-domains that doesn't exist, we have to map the custom-domains to Traefik's LoadBalancer Service if we need to access our deployments. To access;
+Traefik creates `LoadBalancer` type Service in the `kube-system` namepsace And since we are using different `Ingress` rules for each customer with custom-domains that doesn't exist, we have to map the custom-domains to Traefik's LoadBalancer Service if we need to access our deployments. To access;
 
 Get the `EXTERNAL-IP` of the Traefik's LoadBalancer type Service
 
@@ -292,11 +283,10 @@ k3s kubectl get svc -n kube-system | grep traefik
 traefik          LoadBalancer   10.43.11.175    10.70.1.173   80:32537/TCP,443:30694/TCP   5h8m
 ```
 
+Edit the /etc/hosts
 ```
-// add the DNS entry at /etc/hosts
 sudo vim /etc/hosts
 ```
-
 Add the following entry. `10.70.1.173` is the `EXTERNAL-IP` and DNS names are specific to customers and defined in the `Ingress` rules (eg: "`- host: customer-a.parcellab.com`")
 
 ```
@@ -305,8 +295,8 @@ Add the following entry. `10.70.1.173` is the `EXTERNAL-IP` and DNS names are sp
 
 Once the entries are added, you can access the each customer application instance as below:
 
+Access the Customer "A" application
 ```
-// access the Customer "A" application
 curl -kv http://customer-a.parcellab.com
 
 *   Trying 127.0.0.1:80...
@@ -318,9 +308,9 @@ curl -kv http://customer-a.parcellab.com
 
 {"response":"Hi!"}
 
-
-
-// access the Customer "B" application
+```
+Access the Customer "B" application
+```
 curl -kv http://customer-b.parcellab.com
 
 *   Trying 127.0.0.1:80...
@@ -331,10 +321,9 @@ curl -kv http://customer-b.parcellab.com
 * Connection #0 to host customer-b.parcellab.com left intact
 
 {"response":"Dear Sir or Madam!"}
-
-
-
-// access the Customer "C" application
+```
+Access the Customer "C" application
+```
 curl -kv http://customer-c.parcellab.com
 
 *   Trying 127.0.0.1:80...
@@ -347,8 +336,7 @@ curl -kv http://customer-c.parcellab.com
 {"response":"Moin!"}
 ```
 
-As mentioned above, the response varies according to the domain (customer)
-
+As mentioned above, the response varies as per the customer
 
 ## 5. Test API Endpoint
 
@@ -356,22 +344,15 @@ Having an automated testing solution to test the API endpoins helps engineers to
 
 To test this API endpoint (`/`), a small test case is provided. For this, framework's in-built `FastApi-Test-Client` is used. 
 
-You can simply run the Test case for a given customer as below:
-
+Exeucte the test case
 ```
-// set `CUSTOMER_NAME` out of A, B or C 
-export CUSTOMER_NAME=C
-
-// exeucte the test case
 make test
 ```
 
-To make the endpoint testing more easier and before going for KUBERNETES deployment (live), above command create 3 different instances (Docker containers, not Pods) of the application for each customer and test the endpoints of each customer. This can be Considered as pre-deployment testing.
+Above command create 3 different instances (Docker containers, not Pods) of the application for each customer and test the endpoints of each customer. This can be Considered as pre-deployment testing.
 
-**Since we are adhering to the Sigle-Tenant approach, we are limited to only test the endpoint for 2 positive and 1 negative case**
-
+> **Since we are adhering to the Sigle-Tenant approach, we are limited to only test the endpoint for 2 positive (`status_code`, `response`) and 1 negative case (invalid customer)**
 **Unlike in a multi-tenancy mode, we could write variety of test cases for different scenarios for different users**
-
 
 
 Note: You can also execute into the docker container and test the api endpoint like below:
