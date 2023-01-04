@@ -78,6 +78,12 @@ test: build-app run-app
 	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_C) bash -c pytest
 
 clean:
-	docker stop -f $(CONTAINER_NAME) || true
+	docker stop -f $(CONTAINER_NAME)-$(INTERNAL_USER_A) || true
+	docker stop -f $(CONTAINER_NAME)-$(INTERNAL_USER_B) || true
+	docker stop -f $(CONTAINER_NAME)-$(INTERNAL_USER_C) || true
+	docker rm -f $(CONTAINER_NAME)-$(INTERNAL_USER_A) || true
+	docker rm -f $(CONTAINER_NAME)-$(INTERNAL_USER_B) || true
+	docker rm -f $(CONTAINER_NAME)-$(INTERNAL_USER_C) || true	
+	
 	docker rmi $(IMAGE_NAME) || true
 	/usr/local/bin/k3s-uninstall.sh || true
