@@ -4,9 +4,9 @@ This repository responsible for creating a REST-API which responds with differen
 
 [TLDR; 👨‍💻](#tldr-)
 
-[1. Assumptions Made](#1-assumptions-made)
+[1. Assumptions Made 🤔](#1-assumptions-made-)
 
-[2. Directory Hierarchy](#2-directory-hierarchy)
+[2. Directory Hierarchy 🗃️](#2-directory-hierarchy-)
 
 [3. Application Architecture and the Solution](#3-application-architecture-and-the-solution)
 
@@ -26,7 +26,7 @@ This repository responsible for creating a REST-API which responds with differen
 
 You can simply deploy the application on `Kubernetes`
 
-```
+```make
 make deploy
 ```
 
@@ -41,13 +41,13 @@ Once above command is executed, it performs the following actions
 
 add the following entry to at `/etc/hosts` - IP of the LoadBalancer Service will be output by the above `make deploy` command.
 
-```
+```bash
 10.70.1.173 customer-a.parcellab.com customer-b.parcellab.com customer-c.parcellab.com
 ```
 
 Then access each service with;
 
-```
+```bash
 curl -kv http://customer-a.parcellab.com
 curl -kv http://customer-b.parcellab.com
 curl -kv http://customer-c.parcellab.com
@@ -55,7 +55,7 @@ curl -kv http://customer-c.parcellab.com
 
 You can Test the endpoint of each customer application with;
 
-```
+```make
 make test
 ```
 
@@ -63,7 +63,7 @@ make test
 
 ---
 
-## 1. Assumptions Made
+## 1. Assumptions Made 🤔
 
 As per the requirements, the application is deployed **individually** for each customer. 
 
@@ -71,7 +71,7 @@ As per the requirements, the application is deployed **individually** for each c
 
 **Therefore this solution is intended to deploy as a single-tenant solution.**
 
-## 2. Directory Hierarchy 
+## 2. Directory Hierarchy 🗃️
 
 ```
 .
@@ -139,21 +139,21 @@ Since we have 3 different customers, each customer-specific values are stored as
 - `C.values.yaml` - Customer `C` realated deployment variables
 
 
-```
+```yaml
 // A.values.yaml
 ...
 labels:
   customer: A
 ...
 ```
-```
+```yaml
 // B.values.yaml
 ...
 labels:
   customer: B
 ...
 ```
-```
+```yaml
 // C.values.yaml
 ...
 labels:
@@ -163,7 +163,7 @@ labels:
 
 Inside the `app-chart/templates/deployment.yaml`, a `env` variable is set with the key and value as below:
 
-```
+```yaml
 . . .
     spec:
           env:
@@ -176,7 +176,7 @@ The `{{ .Values.labels.customer }}` will be initialized by `"A"`, `"B"` or `"C"`
 
 And the application logic is written to grasp the value of `CUSTOMER_NAME` and return the appropriate response. 
 
-```
+```python
     CUSTOMER_NAME = os.environ
 
     . . .          
@@ -204,7 +204,7 @@ Here, a hash table is used to improve the application performance and time-compl
 
 Installation:
 
-```
+```make
 make install-k3s
 ```
 
@@ -224,7 +224,7 @@ In this example, for automating the build and deployment process of this applica
 
 1. Run Locally
 
-```
+```make
 make run
 ```
 This will run the REST API locally for the Customer A. 
@@ -236,16 +236,16 @@ This will run the REST API locally for the Customer A.
 Since the application is a container-ready application, a `Dockerfile` is used to build the image. This is the most hassle-free solution to share your application and run it anywhere where the Docker is installed. 
 
 Build the Docker image
-```
+```make
 make build-app
 ```
 Run the Docker container
-```
+```make
 make run-app
 ```
 
 Access the applications
-```
+```bash
 curl -kv http://0.0.0.0:8080
 curl -kv http://0.0.0.0:8081
 curl -kv http://0.0.0.0:8082
@@ -258,12 +258,12 @@ Before deploying the application in `Kubernetes`, make sure you have installed `
 And also since we are using local repository for storing the Docker image of our application, we need to import that image to the K3S's (This is useful for anyone who cannot get k3s server to work with the `--docker` flag). Image will be automatically exported from the local repository to the `K3S` repository with the `make deploy` command
 
 Deploy the application for customer "A", "B", and "C"
-```
+```make
 make deploy
 ```
 
 Check the deployed resources
-```
+```bash
 k3s kubectl get po,svc,ing -n customer-a
 k3s kubectl get po,svc,ing -n customer-b
 k3s kubectl get po,svc,ing -n customer-c
@@ -277,26 +277,26 @@ Traefik creates `LoadBalancer` type Service in the `kube-system` namepsace And s
 
 Get the `EXTERNAL-IP` of the Traefik's LoadBalancer type Service
 
-```
+```bash
 k3s kubectl get svc -n kube-system | grep traefik
 
 traefik          LoadBalancer   10.43.11.175    10.70.1.173   80:32537/TCP,443:30694/TCP   5h8m
 ```
 
 Edit the /etc/hosts
-```
+```bash
 sudo vim /etc/hosts
 ```
 Add the following entry. `10.70.1.173` is the `EXTERNAL-IP` and DNS names are specific to customers and defined in the `Ingress` rules (eg: "`- host: customer-a.parcellab.com`")
 
-```
+```bash
 10.70.1.173 customer-a.parcellab.com customer-b.parcellab.com customer-c.parcellab.com
 ```
 
 Once the entries are added, you can access the each customer application instance as below:
 
 Access the Customer "A" application
-```
+```bash
 curl -kv http://customer-a.parcellab.com
 
 *   Trying 127.0.0.1:80...
@@ -310,7 +310,7 @@ curl -kv http://customer-a.parcellab.com
 
 ```
 Access the Customer "B" application
-```
+```bash
 curl -kv http://customer-b.parcellab.com
 
 *   Trying 127.0.0.1:80...
@@ -323,7 +323,7 @@ curl -kv http://customer-b.parcellab.com
 {"response":"Dear Sir or Madam!"}
 ```
 Access the Customer "C" application
-```
+```bash
 curl -kv http://customer-c.parcellab.com
 
 *   Trying 127.0.0.1:80...
@@ -345,7 +345,7 @@ Having an automated testing solution to test the API endpoins helps engineers to
 To test this API endpoint (`/`), a small test case is provided. For this, framework's in-built `FastApi-Test-Client` is used. 
 
 Exeucte the test case
-```
+```make
 make test
 ```
 
@@ -357,7 +357,7 @@ Above command create 3 different instances (Docker containers, not Pods) of the 
 
 Note: You can also execute into the docker container and test the api endpoint like below:
 
-```
+```python
 // execute into the container
 docker exec -it hello-app-A bash
 
@@ -379,6 +379,6 @@ There are several areas that could be improved in the future:
 
 To clean the resources you created, run;
 
-```
+```make
 make clean
 ```
