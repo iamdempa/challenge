@@ -5,29 +5,8 @@
 replicaCount: 1
 namespace: "customer-a"
 
-
-image:
-  repository: hello
-  pullPolicy: Never
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
-
 labels:
   customer: A
   app: hello-app-a
 
-imagePullSecrets: []
-nameOverride: ""
 fullnameOverride: "customer-a"
-
-service:
-  type: ClusterIP #LoadBalancer # NodePort #ClusterIP
-  port: 80
-
-resources:
-  limits:
-    cpu: 50m
-    memory: 100Mi
-  requests:
-    cpu: 50m
-    memory: 100Mi

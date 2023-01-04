@@ -39,6 +39,19 @@ Once above command is executed, it performs the following actions
 
 3 instances of the application will be deployed in 3 different namespaces for each customer
 
+add the following entry to at `/etc/hosts` - IP of the LoadBalancer Service will be output by the above `make deploy` command.
+
+```
+10.70.1.173 customer-a.parcellab.com customer-b.parcellab.com customer-c.parcellab.com
+```
+
+Then access each service with;
+
+```
+curl -kv http://customer-a.parcellab.com
+curl -kv http://customer-b.parcellab.com
+curl -kv http://customer-c.parcellab.com
+```
 ---
 
 ## 1. Assumptions Made
@@ -247,18 +260,12 @@ k3s ctr image list
 Once everything is satisified;
 
 ```
-// deploy the application for customer "A"
-make deploy-a
-k3s kubectl get po,svc,ing -n customer-a 
+// deploy the application for customer "A", "B", and "C"
+make deploy
 
-
-// deploy the application for customer "B"
-make deploy-b
+k3s kubectl get po,svc,ing -n customer-a
 k3s kubectl get po,svc,ing -n customer-b
-
-// deploy the application for customer "C"
-make deploy-c
-k3s kubectl get po,svc,ing -n customer-c 
+k3s kubectl get po,svc,ing -n customer-c
 ```
 
 By default `k3s` uses `Traefik` as the ingress-controller.
