@@ -106,7 +106,9 @@ As per the requirements, the application is deployed **individually** for each c
 
 - `app-chart/` - This directory encompasses the Helm chart for deploying the REST API on Kubernetes. 
 
-> **Note:** In here, we have made the helm chart `DRY` (Don't Repeat Yourself). By this, it means, we are using the same helm chart for different customers. Values are dynamically assigned for each user. The differentaition happens at the ***Values.yaml** level. The more details about this can be read in the [🏠 Application Architecture and the Solution](#-application-architecture-and-the-solution) section
+> **Note:** In here, we have made the helm chart `DRY` (Don't Repeat Yourself). By this, it means, we are using the same helm chart for different customers. Values are dynamically assigned for each user. `values.yaml` has all the common variables while customer-specific values.yaml files conains customer-specific variables.
+
+The differentaition happens at the ***Values.yaml** level. The more details about this can be read in the [🏠 Application Architecture and the Solution](#-application-architecture-and-the-solution) section
 
 ## 🏠 Application Architecture and the Solution
 
@@ -119,7 +121,7 @@ The architecture consists of the following components:
 - A Helm Chart for Kubernetes manifests
 - An automated script (`Makefile`) for building and deploying applications
 
-According to the [1. Assumptions Made](#1-assumptions-made) above, I believe the best way to make things easy, conveninent and re-usable is to use a solution where it can be DRY (Don't Repeat Yourself). This means, making the logic more re-usable with the minimalistic efforts without re-inventing the wheel again and again for each customer. According to the assumption, each instance (in this context, it is a `Pod`) of the application is responsible for its respective response based on the customer. Therefore, the solution is as below:
+According to the [1. Assumptions Made](#-assumptions-made) above, I believe the best way to make things easy, conveninent and re-usable is to use a solution where it can be DRY (Don't Repeat Yourself). This means, making the logic more re-usable with the minimalistic efforts without re-inventing the wheel again and again for each customer. According to the assumption, each instance (in this context, it is a `Pod`) of the application is responsible for its respective response based on the customer. Therefore, the solution is as below:
 
 ### `Solution: `
 
