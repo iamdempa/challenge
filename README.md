@@ -106,9 +106,9 @@ As per the requirements, the application is deployed **individually** for each c
 
 - `app-chart/` - This directory encompasses the Helm chart for deploying the REST API on Kubernetes. 
 
-> **Note:** In here, we have made the helm chart `DRY` (Don't Repeat Yourself). By this, it means, we are using the same helm chart for different customers. Values are dynamically assigned for each user. The differentaition happens at the ***Values.yaml** level. The more details about this can be read in the [⛩️ Application Architecture and the Solution](#-application-architecture-and-the-solution) section
+> **Note:** In here, we have made the helm chart `DRY` (Don't Repeat Yourself). By this, it means, we are using the same helm chart for different customers. Values are dynamically assigned for each user. The differentaition happens at the ***Values.yaml** level. The more details about this can be read in the [🏠 Application Architecture and the Solution](#-application-architecture-and-the-solution) section
 
-## ⛩️ Application Architecture and the Solution
+## 🏠 Application Architecture and the Solution
 
 ![Architecture Diagram](architecture_diagram.png "Architecture Diagram")
 
