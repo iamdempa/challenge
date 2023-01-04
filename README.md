@@ -24,7 +24,7 @@ This repository responsible for creating a REST-API which responds with differen
 
 # TLDR;
 
-You can siimply deploy the application on `Kubernetes`
+You can simply deploy the application on `Kubernetes`
 
 ```
 make deploy
@@ -52,6 +52,15 @@ curl -kv http://customer-a.parcellab.com
 curl -kv http://customer-b.parcellab.com
 curl -kv http://customer-c.parcellab.com
 ```
+
+You can Test the endpoint of each customer application with;
+
+```
+make test
+```
+
+For detailed explanations, refer to the below sections.
+
 ---
 
 ## 1. Assumptions Made
@@ -356,11 +365,13 @@ export CUSTOMER_NAME=C
 make test
 ```
 
+To make the endpoint testing more easier and before going for deployment, above command create 3 different instances (Docker containers, not Pods) of the application for each customer. 
+
 Note: You can also execute into the docker container and test the api endpoint like below:
 
 ```
 // execute into the container
-docker exec -it hello-app bash
+docker exec -it hello-app-A bash
 
 // test
 pytest

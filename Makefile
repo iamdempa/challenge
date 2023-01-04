@@ -77,6 +77,9 @@ import-docker-image: build-app
 	sudo k3s ctr images import $(IMAGE_NAME).tar
 
 test: build-app run-app
+
+	
+
 	echo "Testing the endpoint of the Customer $(INTERNAL_USER_A)..."
 	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_A) bash -c pytest
 
