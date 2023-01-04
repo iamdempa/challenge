@@ -25,7 +25,7 @@ run:
 build-app:
 	echo "Building the Docker image..."
 	docker build -t $(IMAGE_NAME) app/
-	
+
 run-app:
 	docker stop $(CONTAINER_NAME) || true
 
@@ -43,9 +43,11 @@ run-app:
 
 deploy: install-k3s import-docker-image
 	sudo chown $(CURRENT_USER) /etc/rancher/k3s/k3s.yaml
-	sudo chmod 777 /etc/rancher/k3s/k3s.yaml
+	sudo chmod 775 /etc/rancher/k3s/k3s.yaml
 	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml	
 
+	sleep 3
+	
 	echo "Deploying the Customer A"
 
 	helm template -f app-chart/A.values.yaml app-chart/
