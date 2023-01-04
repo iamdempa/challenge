@@ -4,22 +4,22 @@ This repository responsible for creating a REST-API which responds with differen
 
 [👨‍💻 TLDR;](#tldr-)
 
-[🤔 Assumptions Made ](#1-assumptions-made-)
+[🤔 Assumptions Made ](#-assumptions-made)
 
-[🗃️ Directory Hierarchy 🗃️](#2-directory-hierarchy-)
+[🗃️ Directory Hierarchy 🗃️](#-directory-hierarchy)
 
-[3. Application Architecture and the Solution](#3-application-architecture-and-the-solution)
+[🏛️ Application Architecture and the Solution](#-application-architecture-and-the-solution)
 
 [🚀 Build Deploy and Run ](#4-build-deploy-and-run-)
 - [4.1 Prerequisites](#41-prerequisites)
 - [4.2 Run the API](#42-run-the-api) 
     - [4.2.1 Get the most out of Makefile](#421-get-the-most-out-of-makefile)  
 
-[5. Test API Endpoint](#5-test-api-endpoint)
+[📑 Test API Endpoint](#-test-api-endpoint)
 
-[6. Future Improvements](#6-future-improvements)
+[🔮 Future Improvements](#-future-improvements)
 
-[7. Clean](#clean)
+[🧹 Clean](#-clean)
 
 
 # 👨‍💻 TLDR; 
@@ -106,9 +106,9 @@ As per the requirements, the application is deployed **individually** for each c
 
 - `app-chart/` - This directory encompasses the Helm chart for deploying the REST API on Kubernetes. 
 
-> **Note:** In here, we have made the helm chart `DRY` (Don't Repeat Yourself). By this, it means, we are using the same helm chart for different customers. Values are dynamically assigned for each user. The differentaition happens at the ***Values.yaml** level. The more details about this can be read in the [3. Application Architecture and the Solution](#3-application-architecture-and-the-solution) section
+> **Note:** In here, we have made the helm chart `DRY` (Don't Repeat Yourself). By this, it means, we are using the same helm chart for different customers. Values are dynamically assigned for each user. The differentaition happens at the ***Values.yaml** level. The more details about this can be read in the [🏛️ Application Architecture and the Solution](#-application-architecture-and-the-solution) section
 
-## 3. Application Architecture and the Solution
+## 🏛️ Application Architecture and the Solution
 
 ![Architecture Diagram](architecture_diagram.png "Architecture Diagram")
 
@@ -193,7 +193,7 @@ And the application logic is written to grasp the value of `CUSTOMER_NAME` and r
         return {'response' : greeting}
 ```
 
-Here, a hash table is used to improve the application performance and time-complexity. (The response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is. This can also be considered for [6. Future Improvements](#6-future-improvements) )
+Here, a hash table is used to improve the application performance and time-complexity. (The response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is. This can also be considered for [🔮 Future Improvements](#-future-improvements) )
 
 ---
 # 🚀 Build Deploy and Run 
@@ -338,7 +338,7 @@ curl -kv http://customer-c.parcellab.com
 
 As mentioned above, the response varies as per the customer
 
-## 5. Test API Endpoint
+## 📑 Test API Endpoint
 
 Having an automated testing solution to test the API endpoins helps engineers to fix any bugs faster, reduce testing cost amidst the deployment lifecycle, quicker relases and more. 
 
@@ -365,7 +365,7 @@ docker exec -it hello-app-A bash
 pytest
 ```
 
-## 6. Future Improvements
+## 🔮 Future Improvements
 There are several areas that could be improved in the future:
 
 - Extend the application to Maximize robustness with fast startup and graceful shutdown
@@ -375,7 +375,7 @@ There are several areas that could be improved in the future:
 - Explore the use of GitOps for managing the infrastructure and applications
 - Add monitoring and alerting for the entire architecture
 
-## 7. Clean
+## 🧹 Clean
 
 To clean the resources you created, run;
 
