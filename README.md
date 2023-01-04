@@ -22,7 +22,7 @@ This repository responsible for creating a REST-API which responds with differen
 [7. Clean](#clean)
 
 
-# TLDR; 👨‍💻
+# 👨‍💻 TLDR; 
 
 You can simply deploy the application on `Kubernetes`
 
@@ -63,7 +63,7 @@ make test
 
 ---
 
-## 1. Assumptions Made 🤔
+## 🤔 Assumptions Made 
 
 As per the requirements, the application is deployed **individually** for each customer. 
 
@@ -196,7 +196,7 @@ And the application logic is written to grasp the value of `CUSTOMER_NAME` and r
 Here, a hash table is used to improve the application performance and time-complexity. (The response message can also be passed as an environment variable, which is much easier. But since I didn't have much time to change the application logic and the kubernetes manifests, I left the initial code base as it is. This can also be considered for [6. Future Improvements](#6-future-improvements) )
 
 ---
-# 4. Build Deploy and Run 🚀
+# 🚀 Build Deploy and Run 
 
 ## 4.1 Prerequisites
 
