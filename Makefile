@@ -65,6 +65,10 @@ deploy: install-k3s import-docker-image
 	helm template -f app-chart/C.values.yaml app-chart/
 	helm install -f app-chart/C.values.yaml customer-c app-chart/ --namespace customer-c --create-namespace 
 
+	$(eval LB_IP=$(shell sh -c "k3s kubectl get svc traefik -n kube-system -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'"))
+	
+	echo $(LB_IP)
+
 import-docker-image: build-app
 	echo "Importing the docker image to K3S..."
 	docker save --output $(IMAGE_NAME).tar $(IMAGE_NAME)
