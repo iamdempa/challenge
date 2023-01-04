@@ -2,7 +2,7 @@
 
 This repository responsible for creating a REST-API which responds with different salutations for different customers. And the application is Containerized and deployed in a selected container orchestrator (`Kubernetes`)
 
-[TLDR;](#tldr;)
+[TLDR;](#tldr)
 
 [1. Assumptions Made](#1-assumptions-made)
 
@@ -24,15 +24,22 @@ This repository responsible for creating a REST-API which responds with differen
 
 # TLDR;
 
-Simply deploy the application on `Kubernetes`
+You can siimply deploy the application on `Kubernetes`
 
 ```
 make deploy
 ```
 
-Once above command is executed, 3 instances of the application will be deployed in 3 different namespaces for each customer
+Once above command is executed, it performs the following actions
 
+1. Install the K3s
+2. Build a docker image
+3. Export the docker image to to K3s image repository
+4. Deploy the helm charts to the K3s Cluster
 
+3 instances of the application will be deployed in 3 different namespaces for each customer
+
+---
 
 ## 1. Assumptions Made
 

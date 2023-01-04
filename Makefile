@@ -3,6 +3,9 @@ CONTAINER_NAME = hello-app
 CUSTOMER_NAME ?= A
 
 CURRENT_USER = $(shell echo $$USER)
+INTERNAL_USER_A = A
+INTERNAL_USER_B = B
+INTERNAL_USER_C = C
 
 install-k3s:
 	curl -sfL https://get.k3s.io | sh - 
@@ -26,13 +29,13 @@ build-app:
 run-app:
 	docker stop $(CONTAINER_NAME) || true
 	export CUSTOMER_NAME=A
-	docker run --rm --name $(CONTAINER_NAME)-$(CUSTOMER_NAME) -itd -p 8080:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_A) -itd -p 8080:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
 
 	export CUSTOMER_NAME=B
-	docker run --rm --name $(CONTAINER_NAME)-$(CUSTOMER_NAME) -itd -p 8081:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_B) -itd -p 8081:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
 
 	export CUSTOMER_NAME=C
-	docker run --rm --name $(CONTAINER_NAME)-$(CUSTOMER_NAME) -itd -p 8082:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
+	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_C) -itd -p 8082:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
 
 deploy: install-k3s import-docker-image
 	sudo chown $(whoami) /etc/rancher/k3s/k3s.yaml
@@ -61,7 +64,18 @@ import-docker-image: build-app
 	sudo k3s ctr images import $(IMAGE_NAME).tar
 
 test: build-app run-app
-	docker exec -it $(CONTAINER_NAME) bash -c pytest
+	echo "Testing the endpoint of the Customer $(INTERNAL_USER_A)..."
+	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_A) bash -c pytest
+
+	sleep 2
+	
+	echo "Testing the endpoint of the Customer $(INTERNAL_USER_B)..."
+	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_B) bash -c pytest
+
+	sleep 2
+
+	echo "Testing the endpoint of the Customer $(INTERNAL_USER_C)..."
+	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_C) bash -c pytest
 
 clean:
 	docker stop -f $(CONTAINER_NAME) || true
