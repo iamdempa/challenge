@@ -27,7 +27,9 @@ build-app:
 	docker build -t $(IMAGE_NAME) app/
 
 run-app:
-	docker stop $(CONTAINER_NAME) || true
+	docker stop $(CONTAINER_NAME)-$(INTERNAL_USER_A) || true
+	docker stop $(CONTAINER_NAME)-$(INTERNAL_USER_B) || true
+	docker stop $(CONTAINER_NAME)-$(INTERNAL_USER_C) || true
 
 	echo "Running Customer A Application..."
 	export CUSTOMER_NAME=A
@@ -77,9 +79,6 @@ import-docker-image: build-app
 	sudo k3s ctr images import $(IMAGE_NAME).tar
 
 test: build-app run-app
-
-	
-
 	echo "Testing the endpoint of the Customer $(INTERNAL_USER_A)..."
 	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_A) bash -c pytest
 

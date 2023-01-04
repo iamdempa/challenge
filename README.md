@@ -59,7 +59,7 @@ You can Test the endpoint of each customer application with;
 make test
 ```
 
-For detailed explanations, refer to the below sections.
+ⓘ For detailed explanations, refer the below sections.
 
 ---
 
@@ -68,6 +68,8 @@ For detailed explanations, refer to the below sections.
 As per the requirements, the application is deployed **individually** for each customer. 
 
 > Therefore, the assumptions is to have an Application that is a very generic boilerplate and keep it **DRY** (Don't Repeat Yourself) - i.e. for each customer, it only requires to adjust a very minimum set of configurations to make it more specific to the customer (to get the specific response they expect). By this, application and it's associated resources will be re-usable.
+
+**Therefore this solution is intended to deploy as a single-tenant solution.**
 
 ## 2. Directory Hierarchy 
 
@@ -198,7 +200,6 @@ Here, a hash table is used to improve the application performance and time-compl
 
 ## 4.1 Prerequisites
 
-
 - A Kubernetes Cluster - In this example a simple [K3S](https://k3s.io/) cluster is used (and the commands hereby are based on the `K3S` tool)
 
 Installation:
@@ -211,7 +212,7 @@ make install-k3s
 
 - [Docker](https://www.docker.com/)
 
-- [Python](https://www.python.org/downloads/) - If planning to run locally
+- [Python 3.x or later](https://www.python.org/downloads/) - If planning to run locally
 
 - You are using Linux :) 
 
@@ -365,7 +366,13 @@ export CUSTOMER_NAME=C
 make test
 ```
 
-To make the endpoint testing more easier and before going for deployment, above command create 3 different instances (Docker containers, not Pods) of the application for each customer. 
+To make the endpoint testing more easier and before going for KUBERNETES deployment (live), above command create 3 different instances (Docker containers, not Pods) of the application for each customer and test the endpoints of each customer. This can be Considered as pre-deployment testing.
+
+**Since we are adhering to the Sigle-Tenant approach, we are limited to only test the endpoint for 2 positive and 1 negative case**
+
+**Unlike in a multi-tenancy mode, we could write variety of test cases for different scenarios for different users**
+
+
 
 Note: You can also execute into the docker container and test the api endpoint like below:
 
