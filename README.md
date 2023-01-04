@@ -2,7 +2,7 @@
 
 This repository responsible for creating a REST-API which responds with different salutations for different customers. And the application is Containerized and deployed in a selected container orchestrator (`Kubernetes`)
 
-[TLDR; 👨‍💻](#tldr)
+[TLDR; 👨‍💻](#tldr-)
 
 [1. Assumptions Made](#1-assumptions-made)
 
@@ -22,7 +22,7 @@ This repository responsible for creating a REST-API which responds with differen
 [7. Clean](#clean)
 
 
-# TLDR; 👨‍💻
+# TLDR 👨‍💻
 
 You can simply deploy the application on `Kubernetes`
 
