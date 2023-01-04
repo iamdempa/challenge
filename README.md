@@ -128,7 +128,7 @@ According to the [1. Assumptions Made](#-assumptions-made) above, I believe the 
 
 > Set an ENV variable containing the customer-related metadata (in this case, it is the Customer Name) and inject it into the application where the application logic will read this ENV variable and return the relavent response based on the value of the ENV variable set. Therefore the solution is to create a blue-print, re-use it with the minimal configuration changes (i.e. changing the ENV variable).
 
-Advantage of this approach is;
+**Advantage of this approach is;**
 
 - The deployment team can deploy the same application (blue-print) many times, without changing the underlying application logic at all. And also this solution avoid ammending any query parameters to the URI and avoid any unncessary conditional checkings at the application logic to differentiate the customer.
 
