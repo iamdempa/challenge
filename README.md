@@ -6,7 +6,7 @@ This repository responsible for creating a REST-API which responds with differen
 
 [🤔 Assumptions Made ](#-assumptions-made)
 
-[🗃️ Directory Hierarchy 🗃️](#-directory-hierarchy)
+[🗃️ Directory Hierarchy](#-directory-hierarchy)
 
 [🏛️ Application Architecture and the Solution](#-application-architecture-and-the-solution)
 
@@ -71,7 +71,7 @@ As per the requirements, the application is deployed **individually** for each c
 
 **Therefore this solution is intended to deploy as a single-tenant solution.**
 
-## 2. Directory Hierarchy 🗃️
+## 🗃️ Directory Hierarchy 
 
 ```
 .
