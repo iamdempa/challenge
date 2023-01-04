@@ -38,9 +38,6 @@ run-app:
 	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_C) -itd -p 8082:80 -e CUSTOMER_NAME=$(CUSTOMER_NAME) $(IMAGE_NAME)
 
 deploy: install-k3s import-docker-image
-	sudo chown $(whoami) /etc/rancher/k3s/k3s.yaml
-	sudo 777 /etc/rancher/k3s/k3s.yaml
-	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 	echo "Deploying the Customer A"
 
