@@ -22,7 +22,7 @@ This repository responsible for creating a REST-API which responds with differen
 [7. Clean](#clean)
 
 
-# TLDR 👨‍💻
+# TLDR; 👨‍💻
 
 You can simply deploy the application on `Kubernetes`
 
