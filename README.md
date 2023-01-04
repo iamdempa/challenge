@@ -2,7 +2,7 @@
 
 This repository responsible for creating a REST-API which responds with different salutations for different customers. And the application is Containerized and deployed in a selected container orchestrator (`Kubernetes`)
 
-[TLDR;](#tldr)
+[TLDR; 👨‍💻](#tldr)
 
 [1. Assumptions Made](#1-assumptions-made)
 
@@ -22,7 +22,7 @@ This repository responsible for creating a REST-API which responds with differen
 [7. Clean](#clean)
 
 
-# TLDR;
+# TLDR; 👨‍💻
 
 You can simply deploy the application on `Kubernetes`
 
@@ -368,6 +368,8 @@ pytest
 ## 6. Future Improvements
 There are several areas that could be improved in the future:
 
+- Extend the application to Maximize robustness with fast startup and graceful shutdown
+- Enhance the unit and integration test cases 
 - Consider using a managed Kubernetes service such as EKS, AKS or GKE for ease of maintenance and scaling
 - Implement continuous integration and delivery pipelines for all applications using CI/CD tools such GitGub actions, Gitlab CI/CD or Jenkins
 - Explore the use of GitOps for managing the infrastructure and applications
