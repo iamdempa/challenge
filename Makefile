@@ -16,7 +16,7 @@ install-k3s:
 
 run:
 	echo "Installing dependencies..."
-	pip3 install --no-cache-dir --upgrade -r app/requirements.txt
+	pip3 install --no-cache-dir --upgrade -r app/requirements.txt --user
 
 	echo "Running the application locally..."
 	export CUSTOMER_NAME=A
@@ -47,7 +47,7 @@ deploy: install-k3s import-docker-image
 	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml	
 
 	sleep 3
-	
+
 	echo "Deploying the Customer A"
 
 	helm template -f app-chart/A.values.yaml app-chart/

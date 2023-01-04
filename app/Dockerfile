@@ -18,7 +18,7 @@ USER "${USERNAME:-jananath}"
 
 # copy the requirements file and install the dependencies
 COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+RUN pip install --user --no-cache-dir --upgrade -r /app/requirements.txt
 
 
 # copy the app code
