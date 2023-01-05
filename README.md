@@ -87,6 +87,7 @@ As per the requirements, the application is deployed **individually** for each c
    ├── A.values.yaml
    ├── B.values.yaml
    ├── C.values.yaml
+   ├── values.yaml
    ├── Chart.yaml
    └── templates
        ├── _helpers.tpl
