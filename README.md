@@ -224,7 +224,7 @@ make install-k3s
 
 In this example, for automating the build and deployment process of this application, a `Makefile` is introduced. It is nothing but a file with set of tasks defined to be executed. Consider it as a simple pipeline to automate the manual tasks associated with building, running and deploying the application both locally and in kubernetes. 
 
-1. Run Locally
+**1. Run Locally**
 
 ```make
 make run
@@ -233,7 +233,7 @@ This will run the REST API locally for the Customer A.
 
 > If you want to run it for Customer B or C, set a value for the CUSTOMER_NAME before running `make run` - (eg:- export CUSTOMER_NAME=B)
 
-2. Build Image & Run 
+**2. Build Image & Run**
 
 Since the application is a container-ready application, a `Dockerfile` is used to build the image. This is the most hassle-free solution to share your application and run it anywhere where the Docker is installed. 
 
@@ -253,7 +253,7 @@ curl -kv http://0.0.0.0:8081
 curl -kv http://0.0.0.0:8082
 ```
 
-2. Deploy in Kubernetes
+**2. Deploy in Kubernetes**
 
 Before deploying the application in `Kubernetes`, make sure you have installed `helm` and `k3s` (and it is up and running) as mentioned in the Prerequsites section above. 
 
