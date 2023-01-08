@@ -219,7 +219,7 @@ make install-k3s
 
 - [make](https://www.gnu.org/software/make/#download) - >= 3.77
 
-- You are using Linux :) 
+- You are using Linux (preferably Ubuntu) :) 
 
 ## 4.2 Run the API
 
