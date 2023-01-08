@@ -30,7 +30,7 @@ build-app:
 	docker stop $(CONTAINER_NAME)-$(INTERNAL_USER_B) || true
 	docker stop $(CONTAINER_NAME)-$(INTERNAL_USER_C) || true
 	docker stop $(CONTAINER_NAME)-$(INTERNAL_USER_INVALID) || true
-	docker rmi $(IMAGE_NAME)
+	docker rmi $(IMAGE_NAME) || true
 
 	docker build -t $(IMAGE_NAME) app/
 
