@@ -56,7 +56,7 @@ run-app:
 	@printf "\n\nRunning Customer C Application..."
 	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_C) -itd -p 8082:80 -e CUSTOMER_NAME=$(INTERNAL_USER_C) $(IMAGE_NAME)
 
-deploy: install-k3s import-docker-image
+deploy: install-k3s import-docker-image export KUBECONFIG = /etc/rancher/k3s/k3s.yaml
 	sudo chown $(CURRENT_USER) /etc/rancher/k3s/k3s.yaml
 	sudo chmod 644 /etc/rancher/k3s/k3s.yaml
 
@@ -65,7 +65,7 @@ deploy: install-k3s import-docker-image
 	@printf "\nDeploying the Customer A\n"
 
 	helm template -f app-chart/customer-values/A.values.yaml app-chart/
-	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml	 && helm install -f app-chart/customer-values/A.values.yaml customer-a app-chart/ --namespace customer-a --create-namespace 
+	helm install -f app-chart/customer-values/A.values.yaml customer-a app-chart/ --namespace customer-a --create-namespace 
 
 	@printf "\nDeploying the Customer B\n"
 	sleep 2

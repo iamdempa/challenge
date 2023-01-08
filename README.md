@@ -217,6 +217,8 @@ make install-k3s
 
 - [Python 3.x or later](https://www.python.org/downloads/) - If planning to run locally
 
+- [make](https://www.gnu.org/software/make/#download) - >= 3.77
+
 - You are using Linux :) 
 
 ## 4.2 Run the API
