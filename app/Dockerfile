@@ -50,6 +50,6 @@ RUN pip install --user -r requirements.txt
 
 ENV PATH="/home/${USERNAME:-jananath}/.local/bin:${PATH}"
 
-COPY --chown="${USERNAME:-jananath}":"${USERNAME:-jananath}" . .
+COPY --chown=${USERNAME:-jananath}:${USERNAME:-jananath} . .
 
 CMD ["uvicorn", "main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]
