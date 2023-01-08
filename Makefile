@@ -8,7 +8,8 @@ INTERNAL_USER_B = B
 INTERNAL_USER_C = C
 INTERNAL_USER_INVALID = X
 
-export KUBECONFIG := /etc/rancher/k3s/k3s.yaml	
+.EXPORT_ALL_VARIABLES:
+KUBECONFIG = /etc/rancher/k3s/k3s.yaml
 
 install-k3s:
 	echo "Installing K3S and running the cluster..."
@@ -56,7 +57,7 @@ run-app:
 	@printf "\n\nRunning Customer C Application..."
 	docker run --rm --name $(CONTAINER_NAME)-$(INTERNAL_USER_C) -itd -p 8082:80 -e CUSTOMER_NAME=$(INTERNAL_USER_C) $(IMAGE_NAME)
 
-deploy: install-k3s import-docker-image export KUBECONFIG = /etc/rancher/k3s/k3s.yaml
+deploy: install-k3s import-docker-image
 	sudo chown $(CURRENT_USER) /etc/rancher/k3s/k3s.yaml
 	sudo chmod 644 /etc/rancher/k3s/k3s.yaml
 
