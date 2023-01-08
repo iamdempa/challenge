@@ -3,7 +3,8 @@ name: Challenge Jobs
 on: [push]
 
 env:
-  IMAGE_NAME_TAG: hello:v1
+  IMAGE_NAME: hello
+  IMAGE_TAG: v1
 
 jobs:
   build:
@@ -17,7 +18,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: app
-          tags: ${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME }}.tar
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -40,7 +41,7 @@ jobs:
         run: |
           docker load --input /tmp/${{ env.IMAGE_NAME }}.tar
           docker image ls -a
-          
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
