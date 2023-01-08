@@ -65,7 +65,7 @@ deploy: install-k3s import-docker-image
 	@printf "\nDeploying the Customer A\n"
 
 	helm template -f app-chart/customer-values/A.values.yaml app-chart/
-	helm install -f app-chart/customer-values/A.values.yaml customer-a app-chart/ --namespace customer-a --create-namespace 
+	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml	 && helm install -f app-chart/customer-values/A.values.yaml customer-a app-chart/ --namespace customer-a --create-namespace 
 
 	@printf "\nDeploying the Customer B\n"
 	sleep 2
