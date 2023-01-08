@@ -217,7 +217,7 @@ make install-k3s
 
 - [Python 3.x or later](https://www.python.org/downloads/) - If planning to run locally
 
-- [make](https://www.gnu.org/software/make/#download) - >= 3.77
+- [make](https://www.gnu.org/software/make/#download)
 
 - You are using Linux (preferably Ubuntu) :) 
 
