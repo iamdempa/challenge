@@ -41,11 +41,7 @@ ARG PYTHON_VERSION=3.7
 # Use the python image as the base image
 FROM python:${PYTHON_VERSION}
 
-
 RUN pip install --upgrade pip
-
-# set CUSTOMER_NAME as environment variables
-ENV CUSTOMER_NAME=${CUSTOMER_NAME:-A}
 
 RUN adduser -D myuser
 USER myuser
@@ -57,4 +53,5 @@ RUN pip install --user -r requirements.txt
 ENV PATH="/home/myuser/.local/bin:${PATH}"
 
 COPY --chown=myuser:myuser . .
+
 CMD ["uvicorn", "main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]
