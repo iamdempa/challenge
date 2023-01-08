@@ -43,9 +43,9 @@ RUN pip install --upgrade pip
 
 RUN adduser -D "${USERNAME:-jananath}"
 USER "${USERNAME:-jananath}"
-WORKDIR /home/myuser
+WORKDIR /home/"${USERNAME:-jananath}"
 
-COPY --chown=myuser:myuser requirements.txt requirements.txt
+COPY --chown="${USERNAME:-jananath}":"${USERNAME:-jananath}" requirements.txt requirements.txt
 RUN pip install --user -r requirements.txt
 
 ENV PATH="/home/myuser/.local/bin:${PATH}"
