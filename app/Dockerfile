@@ -6,15 +6,15 @@ FROM python:${PYTHON_VERSION}
 # set CUSTOMER_NAME as environment variables
 ENV CUSTOMER_NAME=${CUSTOMER_NAME:-A}
 
+# Set the working directory 
+WORKDIR /app
+
 # Create a non-root user and add the permissions
 RUN useradd -u 1001 "${USERNAME:-jananath}" \
     && chown "${USERNAME:-jananath}" /app
 
 # set the username - HERE WE ARE USING A DEFAULT VALUE FOR THE USERNAME, WHICH IS "jananath"
 USER "${USERNAME:-jananath}"
-
-# Set the working directory 
-WORKDIR /app
 
 # copy the requirements file and install the dependencies
 COPY --chown="${USERNAME:-jananath}":"${USERNAME:-jananath}" requirements.txt /app/requirements.txt
