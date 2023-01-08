@@ -48,8 +48,8 @@ WORKDIR /home/"${USERNAME:-jananath}"
 COPY --chown="${USERNAME:-jananath}":"${USERNAME:-jananath}" requirements.txt requirements.txt
 RUN pip install --user -r requirements.txt
 
-ENV PATH="/home/myuser/.local/bin:${PATH}"
+ENV PATH="/home/${USERNAME:-jananath}/.local/bin:${PATH}"
 
-COPY --chown=myuser:myuser . .
+COPY --chown="${USERNAME:-jananath}":"${USERNAME:-jananath}" . .
 
 CMD ["uvicorn", "main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]
