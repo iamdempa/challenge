@@ -41,8 +41,8 @@ FROM python:${PYTHON_VERSION}
 
 RUN pip install --upgrade pip
 
-RUN adduser -D myuser
-USER myuser
+RUN adduser -D "${USERNAME:-jananath}"
+USER "${USERNAME:-jananath}"
 WORKDIR /home/myuser
 
 COPY --chown=myuser:myuser requirements.txt requirements.txt
