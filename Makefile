@@ -93,22 +93,22 @@ import-docker-image: build-app
 test: build-app run-app
 
 	@printf "\n\nTesting the endpoint of the Customer $(INTERNAL_USER_INVALID)...\n"
-	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_INVALID) bash -c pytest
+	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_INVALID) pytest
 
 	sleep 2
 
 	@printf "\n\nTesting the endpoint of the Customer $(INTERNAL_USER_A)...\n"
-	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_A) bash -c pytest
+	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_A) pytest
 
 	sleep 2
 	
 	@printf "\n\nTesting the endpoint of the Customer $(INTERNAL_USER_B)...\n"
-	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_B) bash -c pytest
+	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_B) pytest
 
 	sleep 2
 
 	@printf "\n\nTesting the endpoint of the Customer $(INTERNAL_USER_C)...\n"
-	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_C) bash -c pytest
+	docker exec -it $(CONTAINER_NAME)-$(INTERNAL_USER_C) pytest
 
 
 clean:
