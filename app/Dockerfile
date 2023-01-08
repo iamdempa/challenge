@@ -36,18 +36,23 @@
 
 
 
-FROM python:3.8.3-alpine
+ARG PYTHON_VERSION=3.7
+
+# Use the python image as the base image
+FROM python:${PYTHON_VERSION}
+
+ENV CUSTOMER_NAME=${CUSTOMER_NAME:-A}
 
 RUN pip install --upgrade pip
 
-RUN adduser -D myuser
-USER myuser
-WORKDIR /home/myuser
+RUN adduser -D "${USERNAME:-jananath}"
+USER "${USERNAME:-jananath}"
+WORKDIR /home/"${USERNAME:-jananath}"
 
-COPY --chown=myuser:myuser requirements.txt requirements.txt
+COPY --chown="${USERNAME:-jananath}":"${USERNAME:-jananath}" requirements.txt requirements.txt
 RUN pip install --user -r requirements.txt
 
-ENV PATH="/home/myuser/.local/bin:${PATH}"
+ENV PATH="/home/"${USERNAME:-jananath}"/.local/bin:${PATH}"
 
-COPY --chown=myuser:myuser . .
+COPY --chown="${USERNAME:-jananath}":"${USERNAME:-jananath}" . .
 CMD ["uvicorn", "main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]
