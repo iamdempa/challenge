@@ -1,6 +1,6 @@
-# name: Challenge Jobs
+name: Challenge Jobs
 
-# on: [push]
+on: [push]
 
 # env:
 #   IMAGE_NAME: hello
