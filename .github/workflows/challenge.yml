@@ -1,56 +1,53 @@
+name: Challenge Jobs
 
-name: ChallengeJobs
 on: [push]
 
-jobs:
+env:
+  IMAGE_NAME_TAG: hello:v1
 
-  build_image:
+jobs:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v2
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-
-      - name: Build and push
+      - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: app
-          tags: myimage:latest
-          outputs: type=docker,dest=/tmp/myimage.tar
-
+          tags: ${{ env.IMAGE_NAME }}:latest
+          outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME }}.tar
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: myimage
-          path: /tmp/myimage.tar
+          name: ${{ env.IMAGE_NAME }}
+          path: /tmp/${{ env.IMAGE_NAME }}.tar
 
-  use_image:
+  use:
     runs-on: ubuntu-latest
-    needs: build_image
+    needs: build
     steps:
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      -
-        name: Download artifact
+      - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: myimage
+          name: ${{ env.IMAGE_NAME }}
           path: /tmp
-      -
-        name: Load Docker image
+      - name: Load Docker image
         run: |
-          docker load --input /tmp/myimage.tar
+          docker load --input /tmp/${{ env.IMAGE_NAME }}.tar
           docker image ls -a
-
-  K3S_Cluster:
+          
+  deploy:
     runs-on: ubuntu-latest
+    needs: build
     steps:
-    - uses: debianmaster/actions-k3s@master
-      id: k3s
-      with:
-        version: 'latest'
-    - run: |
-        kubectl get nodes    
+      - uses: debianmaster/actions-k3s@master
+        id: k3s
+        with:
+          version: 'latest'
+      - name: Check cluster nodes
+        run: kubectl get nodes
