@@ -32,28 +32,3 @@ EXPOSE 80
 
 # set the entrypoint to run the app
 CMD ["uvicorn", "main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]
-
-
-
-
-
-
-# ARG PYTHON_VERSION=3.8.3-alpine
-
-# # Use the python image as the base image
-# FROM python:${PYTHON_VERSION}
-
-# RUN pip install --upgrade pip
-
-# RUN adduser -D "${USERNAME:-jananath}"
-# USER "${USERNAME:-jananath}"
-# WORKDIR /home/"${USERNAME:-jananath}"
-
-# COPY --chown="${USERNAME:-jananath}":"${USERNAME:-jananath}" requirements.txt requirements.txt
-# RUN pip install --user -r requirements.txt
-
-# ENV PATH="/home/${USERNAME:-jananath}/.local/bin:${PATH}"
-
-# COPY --chown=${USERNAME:-jananath}:${USERNAME:-jananath} . .
-
-# CMD ["uvicorn", "main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]
