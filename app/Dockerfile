@@ -35,8 +35,7 @@
 # CMD ["uvicorn", "main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]
 
 
-
-ARG PYTHON_VERSION=3.7
+ARG PYTHON_VERSION=3.8.3
 
 # Use the python image as the base image
 FROM python:${PYTHON_VERSION}
