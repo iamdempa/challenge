@@ -3,6 +3,9 @@ ARG PYTHON_VERSION=3.7
 # Use the python image as the base image
 FROM python:${PYTHON_VERSION}
 
+# upgrade pip 
+RUN pip install --upgrade pip
+
 # set CUSTOMER_NAME as environment variables
 ENV CUSTOMER_NAME=${CUSTOMER_NAME:-A}
 
@@ -19,6 +22,8 @@ USER "${USERNAME:-jananath}"
 # copy the requirements file and install the dependencies
 COPY --chown="${USERNAME:-jananath}":"${USERNAME:-jananath}" requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir --upgrade --user -r /app/requirements.txt
+
+ENV PATH="/home/${USERNAME:-jananath}/.local/bin:${PATH}"
 
 # copy the app code
 COPY --chown="${USERNAME:-jananath}":"${USERNAME:-jananath}" . /app
