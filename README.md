@@ -84,9 +84,9 @@ As per the requirements, the application is deployed **individually** for each c
 │   ├── requirements.txt
 │   └── test_main.py
 ├── app-chart
-   ├── A.values.yaml
-   ├── B.values.yaml
-   ├── C.values.yaml
+   ├── customer-values/A.values.yaml
+   ├── customer-values/B.values.yaml
+   ├── customer-values/C.values.yaml
    ├── values.yaml
    ├── Chart.yaml
    └── templates
@@ -137,27 +137,27 @@ To automate this process, a `Helm` chart is created with different `Values.yaml`
 
 Since we have 3 different customers, each customer-specific values are stored as below.
 
-- `A.values.yaml` - Customer `A` realated deployment variables
-- `B.values.yaml` - Customer `B` realated deployment variables
-- `C.values.yaml` - Customer `C` realated deployment variables
+- `customer-values/A.values.yaml` - Customer `A` realated deployment variables
+- `customer-values/B.values.yaml` - Customer `B` realated deployment variables
+- `customer-values/C.values.yaml` - Customer `C` realated deployment variables
 
 
 ```yaml
-// A.values.yaml
+// customer-values/A.values.yaml
 ...
 labels:
   customer: A
 ...
 ```
 ```yaml
-// B.values.yaml
+// customer-values/B.values.yaml
 ...
 labels:
   customer: B
 ...
 ```
 ```yaml
-// C.values.yaml
+// customer-values/C.values.yaml
 ...
 labels:
   customer: C   

@@ -8,6 +8,8 @@ INTERNAL_USER_B = B
 INTERNAL_USER_C = C
 INTERNAL_USER_INVALID = X
 
+export KUBECONFIG := /etc/rancher/k3s/k3s.yaml	
+
 install-k3s:
 	echo "Installing K3S and running the cluster..."
 	curl -sfL https://get.k3s.io | sh - 
@@ -63,20 +65,20 @@ deploy: install-k3s import-docker-image
 
 	@printf "\nDeploying the Customer A\n"
 
-	helm template -f app-chart/A.values.yaml app-chart/
-	helm install -f app-chart/A.values.yaml customer-a app-chart/ --namespace customer-a --create-namespace 
+	helm template -f app-chart/customer-values/A.values.yaml app-chart/
+	helm install -f app-chart/customer-values/A.values.yaml customer-a app-chart/ --namespace customer-a --create-namespace 
 
 	@printf "\nDeploying the Customer B\n"
 	sleep 2
 
-	helm template -f app-chart/B.values.yaml app-chart/
-	helm install -f app-chart/B.values.yaml customer-b app-chart/ --namespace customer-b --create-namespace 
+	helm template -f app-chart/customer-values/B.values.yaml app-chart/
+	helm install -f app-chart/customer-values/B.values.yaml customer-b app-chart/ --namespace customer-b --create-namespace 
 
 	@printf "\nDeploying the Customer C\n"
 	sleep 2
 
-	helm template -f app-chart/C.values.yaml app-chart/
-	helm install -f app-chart/C.values.yaml customer-c app-chart/ --namespace customer-c --create-namespace 
+	helm template -f app-chart/customer-values/C.values.yaml app-chart/
+	helm install -f app-chart/customer-values/C.values.yaml customer-c app-chart/ --namespace customer-c --create-namespace 
 
 
 	$(eval LB_IP=$(shell sh -c "k3s kubectl get svc traefik -n kube-system -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'"))
