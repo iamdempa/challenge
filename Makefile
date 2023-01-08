@@ -58,8 +58,7 @@ run-app:
 
 deploy: install-k3s import-docker-image
 	sudo chown $(CURRENT_USER) /etc/rancher/k3s/k3s.yaml
-	sudo chmod 600 /etc/rancher/k3s/k3s.yaml
-	export KUBECONFIG=/etc/rancher/k3s/k3s.yaml	
+	sudo chmod 644 /etc/rancher/k3s/k3s.yaml
 
 	sleep 3
 
