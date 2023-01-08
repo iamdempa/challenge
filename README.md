@@ -24,7 +24,7 @@ This repository responsible for creating a REST-API which responds with differen
 
 # 👨‍💻 TLDR; 
 
-You can simply deploy the application on `Kubernetes`. (Make sure `Docker` is running)
+You can simply deploy the application on `Kubernetes`. (Make sure [4.1 Prerequisites](#41-prerequisites) are set)
 
 ```make
 make deploy
