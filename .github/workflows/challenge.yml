@@ -6,8 +6,7 @@ on:
 
 env:
   IMAGE_NAME: hello
-  IMAGE_TAG: v1
-  REPOSITORY: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+  IMAGE_TAG: v1  
 
 jobs:
   build_and_push:
@@ -37,7 +36,7 @@ jobs:
         with:
           context: app
           push: true
-          tags: ${{ env.REPOSITORY }}
+          tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
   container-test-job:
     needs: build_and_push
