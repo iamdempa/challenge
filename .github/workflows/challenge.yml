@@ -53,7 +53,7 @@ jobs:
       # options: --cpus 1
     steps:
       - name: Test
-        shell: sh
+        shell: python
         run: |
           pytest
 
