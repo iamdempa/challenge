@@ -24,7 +24,7 @@ run:
 	pip3 install --no-cache-dir --upgrade -r app/requirements.txt --user
 
 	sudo chown $(CURRENT_USER) app/*
-	sudo chmod 644 app/*
+	sudo chmod 777 app/*
 
 	@printf "\nRunning the application locally..."
 	export CUSTOMER_NAME=$(CUSTOMER_NAME)
