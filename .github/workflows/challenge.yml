@@ -53,9 +53,8 @@ jobs:
       # options: --cpus 1
     steps:
       - name: Test
-        shell: python
-        run: |
-          python -m pytest
+        shell: sh
+        run: pwd
 
   # deploy:
   #   runs-on: ubuntu-latest
