@@ -39,7 +39,7 @@ build-app:
 	docker stop $(CONTAINER_NAME)-$(INTERNAL_USER_INVALID) || true
 	docker rmi $(IMAGE_NAME) || true
 
-	docker build -t $(IMAGE_NAME) app
+	docker build -t $(IMAGE_NAME) app/
 
 run-app:
 
