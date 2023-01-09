@@ -256,6 +256,7 @@ Access the applications
 curl -kv http://0.0.0.0:8080
 curl -kv http://0.0.0.0:8081
 curl -kv http://0.0.0.0:8082
+curl -kv http://0.0.0.0:8083
 ```
 
 **2. Deploy in Kubernetes**
