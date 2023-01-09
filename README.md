@@ -17,7 +17,7 @@ This repository responsible for creating a REST-API which responds with differen
 
 [5. Test API Endpoint](#-test-api-endpoint)
 - [5.1 Locally](#51-locally)
-- [5.2 GitHub Actions](#52-github-actions) 
+- [5.2 dddaasss Actions](#52-github-actions) 
 
 [6. Future Improvements](#-future-improvements)
 
@@ -374,7 +374,7 @@ docker exec -it hello-app-A bash
 pytest
 ```
 
-## 5.2 GithHub Actions
+## 5.2 GitHub Actions
 
 A GitHub workflow is setup to **build**, **push** and **test** the application and endpoints for different scneario. It also **checks** the `Code Quality` of the application with a Linter.
 
