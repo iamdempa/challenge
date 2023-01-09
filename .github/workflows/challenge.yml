@@ -54,7 +54,12 @@ jobs:
     steps:
       - name: Test
         shell: sh
-        run: pwd
+        run: |
+          pwd
+
+          echo "...."
+
+          ls -al
 
   # deploy:
   #   runs-on: ubuntu-latest
