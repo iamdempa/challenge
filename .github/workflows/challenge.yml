@@ -53,10 +53,8 @@ jobs:
       # options: --cpus 1
     steps:
       - name: Test
-        shell: python
-        run: |
-          pip install pytest
-          pytest
+        shell: bash -l {0}
+        run: pytest
 
   deploy:
     runs-on: ubuntu-latest
