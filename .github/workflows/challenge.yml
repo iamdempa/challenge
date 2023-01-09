@@ -55,7 +55,7 @@ jobs:
       - name: Test
         shell: python
         run: |
-          pytest
+          python -m pytest
 
   # deploy:
   #   runs-on: ubuntu-latest
