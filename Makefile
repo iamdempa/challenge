@@ -22,6 +22,9 @@ run:
 	@printf "\nInstalling dependencies..."
 	pip3 install --no-cache-dir --upgrade -r app/requirements.txt --user
 
+	sudo chown $(CURRENT_USER) app/*
+	sudo chmod 644 app/*
+
 	@printf "\nRunning the application locally..."
 	export CUSTOMER_NAME=$(CUSTOMER_NAME)
 	uvicorn app.main:app --reload --host 0.0.0.0 --port 80
