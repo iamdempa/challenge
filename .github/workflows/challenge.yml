@@ -37,8 +37,8 @@ jobs:
           context: app
           push: true
           tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          
-  Test:
+
+  LINTER_AND_TESTER:
     needs: BUILD_AND_PUSH
     runs-on: ubuntu-latest
     strategy:
