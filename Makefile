@@ -96,7 +96,7 @@ deploy: install-k3s import-docker-image
 import-docker-image: build-app
 	sudo chown $(CURRENT_USER) /etc/rancher/k3s/k3s.yaml
 	sudo chmod 644 /etc/rancher/k3s/k3s.yaml
-	
+
 	echo "Importing the docker image to K3S..."
 	docker save --output $(IMAGE_NAME).tar $(IMAGE_NAME)
 	sudo k3s ctr images import $(IMAGE_NAME).tar
@@ -131,8 +131,11 @@ clean:
 	docker rm -f $(CONTAINER_NAME)-$(INTERNAL_USER_B) || true
 	docker rm -f $(CONTAINER_NAME)-$(INTERNAL_USER_C) || true	
 	
-	echo "Remove Docker image"
+	@printf "\nRemoving Docker image...\n"
 	docker rmi -f $(IMAGE_NAME) || true
 
-	echo "Uninstalling K3S..."
+	@printf "\nUninstalling K3S...\n"
 	/usr/local/bin/k3s-uninstall.sh || true
+
+	@printf "\nRemoving the .tar...\n"
+	rm -rf $(IMAGE_NAME).tar
