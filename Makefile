@@ -86,7 +86,7 @@ deploy: install-k3s import-docker-image
 
 
 	@printf "\Retrieving the LoadBalancer IP...\n"
-	sleep 5
+	sleep 10
 
 	$(eval LB_IP=$(shell sh -c "k3s kubectl get svc traefik -n kube-system -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'"))
 	@printf "\n---------------------\nAdd the Following IP as an entry to the /etc/hosts with domain names\n\n"
@@ -94,6 +94,9 @@ deploy: install-k3s import-docker-image
 	
 
 import-docker-image: build-app
+	sudo chown $(CURRENT_USER) /etc/rancher/k3s/k3s.yaml
+	sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+	
 	echo "Importing the docker image to K3S..."
 	docker save --output $(IMAGE_NAME).tar $(IMAGE_NAME)
 	sudo k3s ctr images import $(IMAGE_NAME).tar
