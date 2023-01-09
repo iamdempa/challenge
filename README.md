@@ -396,7 +396,7 @@ There are several areas that could be improved in the future:
 - Extend the application to Maximize robustness with fast startup and graceful shutdown
 - Enhance the unit and integration test cases 
 - Consider using a managed Kubernetes service such as EKS, AKS or GKE for ease of maintenance and scaling
-- Implement continuous integration and delivery pipelines for all applications using CI/CD tools such GitGub actions, Gitlab CI/CD or Jenkins
+- Implement **Continous Delivery** pipeline using CI/CD tools such GitGub actions, Gitlab CI/CD or Jenkins
 - Explore the use of GitOps for managing the infrastructure and applications
 - Add monitoring and alerting for the entire architecture
 
