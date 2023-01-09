@@ -48,14 +48,15 @@ jobs:
           password: ${{ secrets.TOKEN_REPOSITORY }}    
       env:
         CUSTOMER_NAME: A
-      ports:
-        - 80
-      options: --cpus 1
+      # ports:
+      #   - 80
+      # options: --cpus 1
     steps:
-
       - name: Test
         # shell: python
         run: |
+          ls 
+          pwd
           pytest
 
   deploy:
