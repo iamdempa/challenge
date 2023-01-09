@@ -84,9 +84,8 @@ deploy: install-k3s import-docker-image
 	helm template -f app-chart/customer-values/C.values.yaml app-chart/
 	helm install -f app-chart/customer-values/C.values.yaml customer-c app-chart/ --namespace customer-c --create-namespace 
 
-
-	@printf "\Retrieving the LoadBalancer IP...\n"
-	sleep 10
+	@printf "\nRetrieving the LoadBalancer IP...\n"
+	sleep 5
 	
 	@printf "\n---------------------\nAdd the Following IP as an entry to the /etc/hosts with domain names\n\n"
 	@printf "$$(k3s kubectl get svc traefik -n kube-system -o=jsonpath='{.status.loadBalancer.ingress[0].ip}') customer-a.parcellab.com customer-b.parcellab.com customer-c.parcellab.com\n"
