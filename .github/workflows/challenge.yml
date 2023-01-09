@@ -2,7 +2,7 @@ name: Challenge Jobs
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   IMAGE_NAME: hello
@@ -38,6 +38,22 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
+  container-test-job:
+    needs: build_and_push
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+      env:
+        CUSTOMER_NAME: A
+      ports:
+        - 80
+      # volumes:
+      #   - my_docker_volume:/volume_mount
+      options: --cpus 1
+    steps:
+      - name: Test
+        run: pytest
+
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push
@@ -49,4 +65,4 @@ jobs:
           version: 'latest'
       - 
         name: Check cluster nodes
-        run: kubectl get nodes          
+        run: kubectl get nodes
