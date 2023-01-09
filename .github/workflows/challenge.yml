@@ -79,4 +79,4 @@ jobs:
           file: ./app/Dockerfile
           # platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/${{ github.repository }}/hello:v1
+          tags: ghcr.io/${{ github.repository }}/hello:${{ github.sha }}
