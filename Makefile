@@ -87,8 +87,6 @@ deploy: install-k3s import-docker-image
 
 	@printf "\Retrieving the LoadBalancer IP...\n"
 	sleep 10
-
-	$(eval LB_IP=$(shell sh -c "k3s kubectl get svc traefik -n kube-system -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'"))
 	
 	@printf "\n---------------------\nAdd the Following IP as an entry to the /etc/hosts with domain names\n\n"
 	@printf "$$(k3s kubectl get svc traefik -n kube-system -o=jsonpath='{.status.loadBalancer.ingress[0].ip}') customer-a.parcellab.com customer-b.parcellab.com customer-c.parcellab.com\n"
