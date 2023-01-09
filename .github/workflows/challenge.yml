@@ -1,6 +1,8 @@
 name: Challenge Jobs
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
 
 env:
   IMAGE_NAME: hello
@@ -8,7 +10,7 @@ env:
 
 jobs:
   build_and_push:
-  
+
     runs-on: ubuntu-latest
     steps:
       -
