@@ -54,7 +54,7 @@ jobs:
     steps:
 
       - name: Test
-        shell: python
+        # shell: python
         run: |
           pytest
 
