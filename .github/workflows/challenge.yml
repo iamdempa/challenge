@@ -28,7 +28,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: iamdempa
+          username: ${{ github.actor }}
           password: ${{ secrets.TOKEN_REPOSITORY }}
       -
         name: Build and push
@@ -42,12 +42,14 @@ jobs:
     needs: build_and_push
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/iamdempa/challenge/hello:v1
+      image: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
       credentials:
-          username: iamdempa
+          username: ${{ github.actor }}
           password: ${{ secrets.TOKEN_REPOSITORY }}    
       env:
         CUSTOMER_NAME: A
+        IMAGE_NAME: $IMAGE_NAME
+        IMAGE_TAG: $IMAGE_TAG
       # ports:
       #   - 80
       # options: --cpus 1

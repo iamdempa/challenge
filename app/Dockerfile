@@ -22,7 +22,7 @@ USER "${USERNAME:-jananath}"
 COPY --chown="${USERNAME:-jananath}":"${USERNAME:-jananath}" requirements.txt requirements.txt
 RUN pip install --no-cache-dir --upgrade --user -r requirements.txt
 
-ENV PATH="/home/${USERNAME:-jananath}/.local/bin:${PATH}"
+# ENV PATH="/home/${USERNAME:-jananath}/.local/bin:${PATH}"
 
 # copy the app code
 COPY --chown=${USERNAME:-jananath}:${USERNAME:-jananath} . .
