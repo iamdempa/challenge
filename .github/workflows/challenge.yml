@@ -7,6 +7,7 @@ on:
 env:
   IMAGE_NAME: hello
   IMAGE_TAG: v1
+  REPOSITORY: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
 jobs:
   build_and_push:
@@ -36,13 +37,13 @@ jobs:
         with:
           context: app
           push: true
-          tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: ${{ env.REPOSITORY }}
 
   container-test-job:
     needs: build_and_push
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+      image: ${{ env.REPOSITORY }}
       env:
         CUSTOMER_NAME: A
       ports:
