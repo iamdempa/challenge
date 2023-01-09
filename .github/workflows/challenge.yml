@@ -79,18 +79,10 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      - name: Test with pytest
+      - name: Test with pytest for CUSTOMER_NAME=${{ matrix.customers }}
         run: |
           export CUSTOMER_NAME=${{ matrix.customers }}
-          pytest
-          sleep 5
-
-          export CUSTOMER_NAME=B
-          pytest
-          sleep 5
-          
-          export CUSTOMER_NAME=AC
-          pytest                    
+          pytest                 
 
   # deploy:
   #   runs-on: ubuntu-latest
