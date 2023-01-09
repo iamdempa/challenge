@@ -75,8 +75,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: ./app/Dockerfile
-          # platforms: linux/amd64,linux/arm64
+          context: app
           push: true
           tags: ghcr.io/${{ github.repository }}/hello:${{ github.sha }}
