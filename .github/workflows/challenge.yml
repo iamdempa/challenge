@@ -69,7 +69,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: docker.pkg.github.com #ghcr.io
-          repository: iamdempa/test
+          repository: iamdempa/challenge
           username: iamdempa
           password: ${{ secrets.TOKEN_REPOSITORY }}
       -
