@@ -20,7 +20,8 @@ install-k3s:
 
 run:
 	@printf "\nInstalling dependencies..."
-	pip3 install --no-cache-dir --upgrade -r app/requirements.txt --user
+	cd app
+	pip3 install --no-cache-dir --upgrade -r requirements.txt --user
 
 	@printf "\nRunning the application locally..."
 	export CUSTOMER_NAME=$(CUSTOMER_NAME)
