@@ -53,11 +53,9 @@ jobs:
       # options: --cpus 1
     steps:
       - name: Test
-        shell: python
+        shell: sh
         run: |
-          import os
-          print(os.environ['PATH'])
-
+          pytest
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push
