@@ -7,7 +7,8 @@ env:
   IMAGE_TAG: v1
 
 jobs:
-  docker:
+  build_and_push:
+  
     runs-on: ubuntu-latest
     steps:
       -
