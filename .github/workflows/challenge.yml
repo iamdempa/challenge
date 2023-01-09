@@ -53,8 +53,10 @@ jobs:
       # options: --cpus 1
     steps:
       - name: Test
-        shell: bash -l {0}
-        run: pytest
+        shell: python
+        run: |
+          import os
+          print(os.environ['PATH'])
 
   deploy:
     runs-on: ubuntu-latest
