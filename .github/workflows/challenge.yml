@@ -53,10 +53,9 @@ jobs:
       # options: --cpus 1
     steps:
       - name: Test
-        # shell: python
+        shell: python
         run: |
-          ls 
-          pwd
+          pip install pytest
           pytest
 
   deploy:
