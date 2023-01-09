@@ -16,6 +16,8 @@ This repository responsible for creating a REST-API which responds with differen
     - [4.2.1 Get the most out of Makefile](#421-get-the-most-out-of-makefile)  
 
 [5. Test API Endpoint](#-test-api-endpoint)
+- [5.1 Locally](#51-locally)
+- [5.2 GitHub Actions](#52-github-actions) 
 
 [6. Future Improvements](#-future-improvements)
 
@@ -345,6 +347,8 @@ As mentioned above, the response varies as per the customer
 
 ## 📑 Test API Endpoint
 
+
+## 5.1 Locally
 Having an automated testing solution to test the API endpoins helps engineers to fix any bugs faster, reduce testing cost amidst the deployment lifecycle, quicker relases and more. 
 
 To test this API endpoint (`/`), a small test case is provided. For this, framework's in-built `FastApi-Test-Client` is used. 
@@ -368,6 +372,21 @@ docker exec -it hello-app-A bash
 
 // test
 pytest
+```
+
+## 5.2 GithHub Actions
+
+A GitHub workflow is setup to **build**, **push** and **test** the application and endpoints for different scneario. It also **checks** the `Code Quality` of the application with a Linter.
+
+1. Build the Docker Image
+2. Push the Docker Image to GitHub Container Registry
+3. Linter the code base for proper conventions
+
+**How can I trigger a GitHub Action?** - For the Simplicity, GitHub action is set to trigger on every push. You can create an empty commit and push.
+
+```
+git commit --allow-empty -m "Empty-Commit-To-Trigger-Pipeline"
+git push
 ```
 
 ## 🔮 Future Improvements

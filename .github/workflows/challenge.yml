@@ -68,16 +68,3 @@ jobs:
         run: |
           export CUSTOMER_NAME=${{ matrix.customers }}
           pytest                 
-
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: build_and_push
-  #   steps:
-  #     - 
-  #       uses: debianmaster/actions-k3s@master
-  #       id: k3s
-  #       with:
-  #         version: 'latest'
-  #     - 
-  #       name: Check cluster nodes
-  #       run: kubectl get nodes
