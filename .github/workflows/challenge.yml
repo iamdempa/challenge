@@ -59,7 +59,7 @@ jobs:
 
           echo "...."
 
-          ls -al
+          ls
 
   # deploy:
   #   runs-on: ubuntu-latest
