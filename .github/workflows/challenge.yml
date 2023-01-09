@@ -55,7 +55,7 @@ jobs:
       - name: Test
         shell: sh
         run: |
-          pip install flake8 pytest fastapi httpx uvicorn pydantic requests
+          pip install --user flake8 pytest fastapi httpx uvicorn pydantic requests
           pytest
 
 
