@@ -28,7 +28,7 @@ run:
 
 	@printf "\nRunning the application locally..."
 	export CUSTOMER_NAME=$(CUSTOMER_NAME)
-	uvicorn app.main:app --reload --host 0.0.0.0 --port 80
+	uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
 	
 build-app:
 	echo "Building the Docker image..."
