@@ -122,7 +122,7 @@ clean:
 	docker rm -f $(CONTAINER_NAME)-$(INTERNAL_USER_C) || true	
 	
 	echo "Remove Docker image"
-	docker rmi $(IMAGE_NAME) || true
+	docker rmi -f $(IMAGE_NAME) || true
 
 	echo "Uninstalling K3S..."
 	/usr/local/bin/k3s-uninstall.sh || true
