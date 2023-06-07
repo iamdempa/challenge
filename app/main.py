@@ -34,4 +34,4 @@ def hello():
 # Define the health API endpoint to be used by the kubernetes
 @app.get('/health')
 def health():
-    return {'status' : "Hurray! We are online..."}
+    return {'status' : "Hurray! We are online now..."}
