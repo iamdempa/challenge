@@ -10,6 +10,7 @@ INTERNAL_USER_C = C
 INTERNAL_USER_INVALID = X
 
 .EXPORT_ALL_VARIABLES:
+
 KUBECONFIG = /etc/rancher/k3s/k3s.yaml
 
 install-k3s:
